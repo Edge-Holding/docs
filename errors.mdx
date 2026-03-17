@@ -12,9 +12,8 @@ The Edge API uses standard HTTP status codes to indicate success or failure.
 | Code | Meaning |
 | --- | --- |
 | `200` | Success |
-| `401` | Unauthorized — missing or invalid API key |
+| `401` | Unauthorized — missing, invalid, revoked, or expired API key |
 | `402` | Payment Required — insufficient credits |
-| `403` | Forbidden — key is revoked/expired, or permission denied |
 | `404` | Not Found — endpoint or resource doesn't exist |
 | `422` | Validation Error — invalid request parameters |
 | `429` | Too Many Requests — rate limit exceeded |
