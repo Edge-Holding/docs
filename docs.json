@@ -10,11 +10,7 @@
   "colors": {
     "primary": "#F5F4F2",
     "light": "#0a0e19",
-    "dark": "#F5F4F2",
-    "background": {
-      "dark": "#0D0C0B",
-      "light": "#F9FAFB"
-    }
+    "dark": "#F5F4F2"
   },
   "modeToggle": {
     "default": "dark",
