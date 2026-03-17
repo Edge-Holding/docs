@@ -3,8 +3,8 @@
   "theme": "mint",
   "name": "Edge Docs",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/edge-dark.svg",
+    "light": "/logo/edge-light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
