@@ -13,11 +13,11 @@ https://api.edge.bh/api/v1
 
 ## Authentication
 
-All service endpoints require an API key passed in the `X-Api-Key` header:
+All service endpoints require an API key passed as a Bearer token in the `Authorization` header:
 
 ```bash
 curl -X GET "https://api.edge.bh/api/v1/services/iban/validate/GB29NWBK60161331926819" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ## Available services
@@ -35,7 +35,7 @@ curl -X GET "https://api.edge.bh/api/v1/services/iban/validate/GB29NWBK601613319
 
 ## Response format
 
-All responses are JSON. Successful responses return `200` with the data. Error responses include a `message` field.
+All responses are JSON. Successful responses return `200` with the data. Error responses include an `error` field.
 
 ## Rate limits
 

@@ -7,7 +7,7 @@ description: Search commercial registrations in Bahrain with advanced filters.
 
 <Info>**Credits:** 3 per call</Info>
 
-Search for commercial registrations in Bahrain using various filters including company name, CR number, nationality, sector, and more.
+Search for commercial registrations in Bahrain using various filters including company name, CR number, nationality, sector, partner details, address, and more.
 
 ## Request
 
@@ -15,7 +15,7 @@ Search for commercial registrations in Bahrain using various filters including c
 POST /services/cr/bh/search
 ```
 
-All parameters are optional. At least one search parameter must be provided.
+All parameters are optional. At least one search parameter should be provided.
 
 <ParamField body="cr_number" type="string">
   Filter by CR number.
@@ -46,7 +46,7 @@ All parameters are optional. At least one search parameter must be provided.
 </ParamField>
 
 <ParamField body="activity_code" type="string">
-  Filter by activity code.
+  Filter by ISIC4 activity code.
 </ParamField>
 
 <ParamField body="partner_name_en" type="string">
@@ -57,8 +57,12 @@ All parameters are optional. At least one search parameter must be provided.
   Search by partner/shareholder Arabic name.
 </ParamField>
 
-<ParamField body="municipality" type="string">
-  Filter by municipality.
+<ParamField body="partner_cr_number" type="string">
+  Search by partner's CR number.
+</ParamField>
+
+<ParamField body="partner_nationality" type="string">
+  Filter by partner nationality.
 </ParamField>
 
 <ParamField body="registered_from" type="string">
@@ -69,6 +73,34 @@ All parameters are optional. At least one search parameter must be provided.
   Registration date to (YYYY-MM-DD).
 </ParamField>
 
+<ParamField body="flat" type="string">
+  Filter by flat/unit number.
+</ParamField>
+
+<ParamField body="building" type="string">
+  Filter by building number.
+</ParamField>
+
+<ParamField body="road" type="string">
+  Filter by road number.
+</ParamField>
+
+<ParamField body="block" type="string">
+  Filter by block number.
+</ParamField>
+
+<ParamField body="municipality" type="string">
+  Filter by municipality.
+</ParamField>
+
+<ParamField body="registration_type" type="string">
+  Filter by registration type.
+</ParamField>
+
+<ParamField body="passport_number" type="string">
+  Search by passport number.
+</ParamField>
+
 <ParamField body="lang" type="string" default="EN">
   Response language: `EN` or `AR`.
 </ParamField>
@@ -77,21 +109,37 @@ All parameters are optional. At least one search parameter must be provided.
   Page number.
 </ParamField>
 
-<ParamField body="per_page" type="integer" default="25">
+<ParamField body="per_page" type="integer" default="10">
   Results per page (max 100).
 </ParamField>
+
+<Note>Currently only Bahrain (`bh`) is supported. More countries coming soon.</Note>
 
 <CodeGroup>
 
 ```bash cURL
 curl -X POST "https://api.edge.bh/api/v1/services/cr/bh/search" \
-  -H "X-Api-Key: sk_live_your_key_here" \
+  -H "Authorization: Bearer sk_live_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{
     "name_en": "trading",
     "status": "Active",
     "per_page": 10
   }'
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.edge.bh/api/v1/services/cr/bh/search",
+    headers={"Authorization": "Bearer sk_live_your_key_here"},
+    json={
+        "name_en": "trading",
+        "status": "Active",
+        "per_page": 10
+    }
+)
 ```
 
 </CodeGroup>
@@ -103,10 +151,16 @@ curl -X POST "https://api.edge.bh/api/v1/services/cr/bh/search" \
   "results": [
     {
       "cr_number": "12345",
-      "company_name_en": "Example Trading Co.",
+      "branch_number": "1",
+      "name_en": "Example Trading Co. W.L.L.",
+      "name_ar": "\u0634\u0631\u0643\u0629 \u0627\u0644\u0645\u062b\u0627\u0644 \u0627\u0644\u062a\u062c\u0627\u0631\u064a\u0629",
       "company_type": "W.L.L.",
       "status": "Active",
-      "registration_date": "2020-01-15"
+      "status_color": "GREEN",
+      "registration_date": "2020-01-15",
+      "expiry_date": "2025-01-15",
+      "activities": "General Trading",
+      "sector": "Trade"
     }
   ],
   "total": 150,
@@ -114,3 +168,34 @@ curl -X POST "https://api.edge.bh/api/v1/services/cr/bh/search" \
   "per_page": 10
 }
 ```
+
+### Response fields
+
+<ResponseField name="results" type="array">
+  List of matching commercial registrations.
+  <Expandable>
+    <ResponseField name="cr_number" type="string">Commercial registration number.</ResponseField>
+    <ResponseField name="branch_number" type="string">Branch number.</ResponseField>
+    <ResponseField name="name_en" type="string">Company name in English.</ResponseField>
+    <ResponseField name="name_ar" type="string">Company name in Arabic.</ResponseField>
+    <ResponseField name="company_type" type="string">Company type description.</ResponseField>
+    <ResponseField name="status" type="string">Registration status.</ResponseField>
+    <ResponseField name="status_color" type="string">Status color indicator.</ResponseField>
+    <ResponseField name="registration_date" type="string">Registration date.</ResponseField>
+    <ResponseField name="expiry_date" type="string">Registration expiry date.</ResponseField>
+    <ResponseField name="activities" type="string | null">Business activities summary.</ResponseField>
+    <ResponseField name="sector" type="string | null">Business sector.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of matching results.
+</ResponseField>
+
+<ResponseField name="page" type="integer">
+  Current page number.
+</ResponseField>
+
+<ResponseField name="per_page" type="integer">
+  Results per page.
+</ResponseField>

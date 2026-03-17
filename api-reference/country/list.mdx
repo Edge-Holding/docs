@@ -7,7 +7,7 @@ description: Get a list of all 250 countries.
 
 <Info>**Credits:** 1 per call</Info>
 
-Returns a list of all 250 countries with basic information.
+Returns a list of all 250 countries with basic information, sorted alphabetically by name.
 
 ## Request
 
@@ -19,7 +19,16 @@ GET /services/country/list
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/country/list" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/country/list",
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
+)
 ```
 
 </CodeGroup>
@@ -31,17 +40,42 @@ curl -X GET "https://api.edge.bh/api/v1/services/country/list" \
   "countries": [
     {
       "code": "AD",
+      "code3": "AND",
       "name": "Andorra",
+      "official_name": "Principality of Andorra",
+      "flag": "\ud83c\udde6\ud83c\udde9",
       "region": "Europe",
-      "calling_codes": ["+376"]
+      "population": 77265
     },
     {
       "code": "AE",
+      "code3": "ARE",
       "name": "United Arab Emirates",
+      "official_name": "United Arab Emirates",
+      "flag": "\ud83c\udde6\ud83c\uddea",
       "region": "Asia",
-      "calling_codes": ["+971"]
+      "population": 9890402
     }
   ],
   "total": 250
 }
 ```
+
+### Response fields
+
+<ResponseField name="countries" type="array">
+  List of countries, each containing:
+  <Expandable>
+    <ResponseField name="code" type="string">ISO 3166-1 alpha-2 code.</ResponseField>
+    <ResponseField name="code3" type="string">ISO 3166-1 alpha-3 code.</ResponseField>
+    <ResponseField name="name" type="string">Common country name.</ResponseField>
+    <ResponseField name="official_name" type="string">Official country name.</ResponseField>
+    <ResponseField name="flag" type="string">Flag emoji.</ResponseField>
+    <ResponseField name="region" type="string">Geographic region.</ResponseField>
+    <ResponseField name="population" type="integer">Country population.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of countries returned.
+</ResponseField>

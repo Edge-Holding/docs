@@ -22,11 +22,21 @@ The Edge API uses standard HTTP status codes to indicate success or failure.
 
 ## Error response format
 
-All errors return a JSON response with an error message:
+All errors return a JSON response with an `error` field:
 
 ```json
 {
-  "message": "Insufficient credits. Required: 3, Available: 0"
+  "error": "Insufficient credits",
+  "required": 3,
+  "available": 0
+}
+```
+
+Authentication errors return a single `error` field:
+
+```json
+{
+  "error": "API key required"
 }
 ```
 

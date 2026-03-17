@@ -1,13 +1,13 @@
 ---
 title: Screen Entity
-description: Screen a name against OFAC, UN, and UK OFSI sanctions lists.
+description: Screen a name against OFAC, UN, EU, UK OFSI, and 350+ government sanctions lists.
 ---
 
 # Screen Entity
 
 <Info>**Credits:** 5 per call</Info>
 
-Screen a name against 1.2M+ sanctioned entities from OFAC (US), UN, and UK OFSI databases. Returns matching entities with a similarity score.
+Screen a name against sanctioned entities from OFAC SDN, UN Security Council, EU Consolidated, UK OFSI, and 350+ government watchlists. Returns matching entities with a similarity score.
 
 ## Request
 
@@ -15,10 +15,8 @@ Screen a name against 1.2M+ sanctioned entities from OFAC (US), UN, and UK OFSI 
 GET /services/sanctions/screen
 ```
 
-Both `GET` and `POST` methods are supported.
-
 <ParamField query="name" type="string" required>
-  The name to screen against sanctions lists.
+  The name to screen against sanctions lists. Must be between 2 and 200 characters.
 </ParamField>
 
 <ParamField query="min_score" type="number" default="0.7">
@@ -37,7 +35,7 @@ Both `GET` and `POST` methods are supported.
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/sanctions/screen?name=John+Smith&min_score=0.8" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -45,7 +43,7 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/sanctions/screen",
-    headers={"X-Api-Key": "sk_live_your_key_here"},
+    headers={"Authorization": "Bearer sk_live_your_key_here"},
     params={"name": "John Smith", "min_score": 0.8}
 )
 ```
@@ -56,26 +54,32 @@ response = requests.get(
 
 ```json
 {
-  "query": "John Smith",
-  "total_matches": 2,
+  "name": "John Smith",
   "matches": [
     {
+      "score": 0.921,
       "name": "SMITH, John David",
-      "score": 0.92,
+      "matched_name": "SMITH, John David",
       "type": "Individual",
-      "source": "OFAC",
-      "program": "SDGT",
-      "remarks": "DOB 15 Mar 1975; nationality United Kingdom"
+      "programs": ["SDGT"],
+      "country": "United Kingdom",
+      "aliases": ["John D. Smith", "J. Smith"],
+      "ids": [{"type": "Passport", "value": "GB123456"}]
     },
     {
+      "score": 0.812,
       "name": "SMITH, Jonathan",
-      "score": 0.81,
+      "matched_name": "Jonathan Smith",
       "type": "Individual",
-      "source": "UN",
-      "program": "Security Council",
-      "remarks": "Listed pursuant to resolution 1988"
+      "programs": ["Security Council"],
+      "country": "Unknown",
+      "aliases": [],
+      "ids": []
     }
-  ]
+  ],
+  "count": 2,
+  "sources": ["OFAC SDN", "UN Security Council", "EU Consolidated", "UK OFSI", "and 350+ government watchlists"],
+  "screened_at": "2026-03-17T12:00:00+00:00"
 }
 ```
 

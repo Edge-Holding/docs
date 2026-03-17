@@ -7,7 +7,7 @@ description: List all banks in a specific country.
 
 <Info>**Credits:** 1 per call</Info>
 
-Returns a list of banks in the specified country with pagination.
+Returns a paginated list of banks in the specified country. Supports filtering by bank name, BIC, or city.
 
 ## Request
 
@@ -20,22 +20,22 @@ GET /services/bank/country/{country}
 </ParamField>
 
 <ParamField query="search" type="string">
-  Filter banks by name.
+  Filter banks by name, BIC, or city.
 </ParamField>
 
 <ParamField query="page" type="integer" default="1">
   Page number.
 </ParamField>
 
-<ParamField query="per_page" type="integer" default="25">
-  Results per page.
+<ParamField query="per_page" type="integer" default="20">
+  Results per page (max 100).
 </ParamField>
 
 <CodeGroup>
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/bank/country/GB?search=national&per_page=10" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 </CodeGroup>
@@ -45,11 +45,16 @@ curl -X GET "https://api.edge.bh/api/v1/services/bank/country/GB?search=national
 ```json
 {
   "country": "GB",
-  "banks": [
+  "results": [
     {
-      "bank_name": "NATIONAL WESTMINSTER BANK PLC",
-      "bic": "NWBKGB2L",
-      "city": "London"
+      "bic": "NWBKGB2LXXX",
+      "bank_code": "601613",
+      "bank": "NATIONAL WESTMINSTER BANK PLC",
+      "country_code": "GB",
+      "city": "London",
+      "address": "135 Bishopsgate",
+      "phone": "+44 20 7175 5000",
+      "www": "https://www.natwest.com"
     }
   ],
   "total": 1,

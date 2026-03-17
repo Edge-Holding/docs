@@ -7,7 +7,7 @@ description: Validate multiple IBANs in a single request.
 
 <Info>**Credits:** 2 per IBAN in the request</Info>
 
-Validate between 5 and 100 IBANs in a single API call. Each IBAN gets full validation with bank details.
+Validate between 5 and 100 IBANs in a single API call. Each IBAN gets full validation with bank details, SEPA data, and validation checks.
 
 ## Request
 
@@ -23,7 +23,7 @@ POST /services/iban/bulk-validate
 
 ```bash cURL
 curl -X POST "https://api.edge.bh/api/v1/services/iban/bulk-validate" \
-  -H "X-Api-Key: sk_live_your_key_here" \
+  -H "Authorization: Bearer sk_live_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{
     "ibans": [
@@ -42,7 +42,7 @@ import requests
 response = requests.post(
     "https://api.edge.bh/api/v1/services/iban/bulk-validate",
     headers={
-        "X-Api-Key": "sk_live_your_key_here",
+        "Authorization": "Bearer sk_live_your_key_here",
         "Content-Type": "application/json"
     },
     json={
@@ -61,7 +61,15 @@ response = requests.post(
 
 ## Response
 
-Returns an array of validation results:
+<ResponseField name="results" type="array">
+  Array of full validation results. Each item has the same structure as the [Validate IBAN (Full)](/api-reference/iban/validate) response: `valid`, `iban`, `bank_data`, `sepa_data`, `validations`, and `errors`.
+</ResponseField>
+
+<ResponseField name="count" type="integer">
+  Number of IBANs processed.
+</ResponseField>
+
+**Example response:**
 
 ```json
 {
@@ -69,23 +77,81 @@ Returns an array of validation results:
     {
       "valid": true,
       "iban": "GB29NWBK60161331926819",
-      "country": { "code": "GB", "name": "United Kingdom" },
-      "bank": { "name": "NATIONAL WESTMINSTER BANK PLC", "bic": "NWBKGB2L" },
-      "checksum_valid": true,
-      "format_valid": true
+      "bank_data": {
+        "bic": "NWBKGB2L",
+        "bic11": "NWBKGB2LXXX",
+        "bank": "NATIONAL WESTMINSTER BANK PLC",
+        "branch": "Regent Street",
+        "address": "PO Box 2027",
+        "city": "LONDON",
+        "state": null,
+        "zip": "E14 5DA",
+        "phone": null,
+        "fax": null,
+        "www": null,
+        "email": null,
+        "country": "United Kingdom",
+        "country_iso": "GB",
+        "currency_code": "GBP",
+        "bban": "NWBK60161331926819",
+        "account_number": "31926819",
+        "bank_code": "NWBK",
+        "branch_code": "601613"
+      },
+      "sepa_data": {
+        "member": true,
+        "schemes": ["SCT", "SDD", "COR1", "B2B", "SCC"]
+      },
+      "validations": {
+        "chars": { "code": "006", "message": "IBAN does not contain illegal characters" },
+        "country_support": { "code": "007", "message": "Country supports IBAN standard" },
+        "length": { "code": "003", "message": "IBAN Length is correct" },
+        "structure": { "code": "005", "message": "IBAN structure is correct" },
+        "iban": { "code": "001", "message": "IBAN Check digit is correct" },
+        "account": { "code": "002", "message": "Account Number check digit is correct" }
+      },
+      "errors": []
     },
     {
       "valid": true,
       "iban": "DE89370400440532013000",
-      "country": { "code": "DE", "name": "Germany" },
-      "bank": { "name": "Commerzbank", "bic": "COBADEFFXXX" },
-      "checksum_valid": true,
-      "format_valid": true
+      "bank_data": {
+        "bic": "COBADEFF",
+        "bic11": "COBADEFFXXX",
+        "bank": "Commerzbank",
+        "branch": null,
+        "address": null,
+        "city": "Frankfurt am Main",
+        "state": null,
+        "zip": null,
+        "phone": null,
+        "fax": null,
+        "www": null,
+        "email": null,
+        "country": "Germany",
+        "country_iso": "DE",
+        "currency_code": "EUR",
+        "bban": "370400440532013000",
+        "account_number": "0532013000",
+        "bank_code": "37040044",
+        "branch_code": null
+      },
+      "sepa_data": {
+        "member": true,
+        "schemes": ["SCT", "SDD", "COR1", "B2B", "SCC"]
+      },
+      "validations": {
+        "chars": { "code": "006", "message": "IBAN does not contain illegal characters" },
+        "country_support": { "code": "007", "message": "Country supports IBAN standard" },
+        "length": { "code": "003", "message": "IBAN Length is correct" },
+        "structure": { "code": "005", "message": "IBAN structure is correct" },
+        "iban": { "code": "001", "message": "IBAN Check digit is correct" },
+        "account": { "code": "002", "message": "Account Number check digit is correct" }
+      },
+      "errors": []
     }
   ],
-  "total": 5,
-  "valid_count": 5,
-  "invalid_count": 0
+  "count": 5
 }
 ```
 

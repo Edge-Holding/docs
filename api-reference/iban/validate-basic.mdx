@@ -1,13 +1,13 @@
 ---
 title: Validate IBAN (Basic)
-description: Quick IBAN validation — checksum and format check only.
+description: Quick IBAN validation — checksum and format check with country and SEPA data.
 ---
 
 # Validate IBAN (Basic)
 
 <Info>**Credits:** 1 per call</Info>
 
-A lightweight validation that checks the IBAN format and checksum without looking up bank details. Use this when you only need to verify if an IBAN is structurally valid.
+A lightweight validation that checks the IBAN format and checksum without looking up bank details. Returns country info, SEPA scheme support, and the extracted BBAN and account number.
 
 ## Request
 
@@ -25,7 +25,7 @@ Both `GET` and `POST` methods are supported.
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/iban/validate-basic/DE89370400440532013000" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -33,23 +33,108 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/iban/validate-basic/DE89370400440532013000",
-    headers={"X-Api-Key": "sk_live_your_key_here"}
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
 )
+data = response.json()
 ```
 
 </CodeGroup>
 
 ## Response
 
+<ResponseField name="result" type="integer">
+  `200` if the IBAN is valid, `400` if it is not.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  `"IBAN is valid"` or `"IBAN is not valid"`.
+</ResponseField>
+
+<ResponseField name="validations" type="array">
+  Array of validation checks performed. Each item has `code` and `message`.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  Parsed IBAN data.
+  <Expandable>
+    <ResponseField name="iban" type="string">The normalized IBAN (spaces removed, uppercased).</ResponseField>
+    <ResponseField name="country_code" type="string">ISO 3166-1 alpha-2 country code.</ResponseField>
+    <ResponseField name="country_name" type="string | null">Country name.</ResponseField>
+    <ResponseField name="currency_code" type="string | null">ISO 4217 currency code.</ResponseField>
+    <ResponseField name="sepa" type="object">
+      SEPA scheme support details.
+      <Expandable>
+        <ResponseField name="member" type="boolean">Whether the country is a SEPA member.</ResponseField>
+        <ResponseField name="sepa_credit_transfer" type="boolean">Supports SEPA Credit Transfer.</ResponseField>
+        <ResponseField name="sepa_direct_debit" type="boolean">Supports SEPA Direct Debit.</ResponseField>
+        <ResponseField name="sepa_cor1" type="boolean">Supports SEPA COR1.</ResponseField>
+        <ResponseField name="sepa_b2b" type="boolean">Supports SEPA B2B.</ResponseField>
+        <ResponseField name="sepa_card_clearing" type="boolean">Supports SEPA Card Clearing.</ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="bban" type="string">Basic Bank Account Number.</ResponseField>
+    <ResponseField name="bank_account" type="string | null">Account number extracted from the IBAN.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+**Example response (valid IBAN):**
+
 ```json
 {
-  "valid": true,
-  "iban": "DE89370400440532013000",
-  "country": {
-    "code": "DE",
-    "name": "Germany"
-  },
-  "checksum_valid": true,
-  "format_valid": true
+  "result": 200,
+  "message": "IBAN is valid",
+  "validations": [
+    { "code": "006", "message": "IBAN does not contain illegal characters" },
+    { "code": "007", "message": "Country supports IBAN standard" },
+    { "code": "003", "message": "IBAN Length is correct" },
+    { "code": "005", "message": "IBAN structure is correct" },
+    { "code": "001", "message": "IBAN Check digit is correct" },
+    { "code": "002", "message": "Account Number check digit is correct" }
+  ],
+  "data": {
+    "iban": "DE89370400440532013000",
+    "country_code": "DE",
+    "country_name": "Germany",
+    "currency_code": "EUR",
+    "sepa": {
+      "member": true,
+      "sepa_credit_transfer": true,
+      "sepa_direct_debit": true,
+      "sepa_cor1": true,
+      "sepa_b2b": true,
+      "sepa_card_clearing": true
+    },
+    "bban": "370400440532013000",
+    "bank_account": "0532013000"
+  }
+}
+```
+
+**Example response (invalid IBAN):**
+
+```json
+{
+  "result": 400,
+  "message": "IBAN is not valid",
+  "validations": [
+    { "code": "006", "message": "IBAN does not contain illegal characters" },
+    { "code": "007", "message": "Country does not support IBAN standard" }
+  ],
+  "data": {
+    "iban": "XX12345678",
+    "country_code": "XX",
+    "country_name": null,
+    "currency_code": null,
+    "sepa": {
+      "member": false,
+      "sepa_credit_transfer": false,
+      "sepa_direct_debit": false,
+      "sepa_cor1": false,
+      "sepa_b2b": false,
+      "sepa_card_clearing": false
+    },
+    "bban": "345678",
+    "bank_account": null
+  }
 }
 ```

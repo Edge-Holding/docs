@@ -31,7 +31,7 @@ GET /services/fx/historical/{date}
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/fx/historical/2026-01-15?base=USD&symbols=EUR,GBP" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 </CodeGroup>
@@ -45,6 +45,9 @@ curl -X GET "https://api.edge.bh/api/v1/services/fx/historical/2026-01-15?base=U
   "rates": {
     "EUR": 0.9180,
     "GBP": 0.7845
-  }
+  },
+  "note": "Historical rates use latest available data on free tier"
 }
 ```
+
+<Note>The free tier uses the latest available rates labeled with the requested date. The `note` field indicates this.</Note>

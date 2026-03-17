@@ -7,7 +7,7 @@ description: Get a list of all supported currencies.
 
 <Info>**Credits:** 1 per call</Info>
 
-Returns a list of all supported currency codes and their names.
+Returns a map of all supported currency codes.
 
 ## Request
 
@@ -19,7 +19,7 @@ GET /services/fx/currencies
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/fx/currencies" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 </CodeGroup>
@@ -29,14 +29,14 @@ curl -X GET "https://api.edge.bh/api/v1/services/fx/currencies" \
 ```json
 {
   "currencies": {
-    "USD": "United States Dollar",
-    "EUR": "Euro",
-    "GBP": "British Pound Sterling",
-    "BHD": "Bahraini Dinar",
-    "SAR": "Saudi Riyal",
-    "AED": "United Arab Emirates Dirham"
+    "AED": "AED",
+    "BHD": "BHD",
+    "EUR": "EUR",
+    "GBP": "GBP",
+    "SAR": "SAR",
+    "USD": "USD"
   }
 }
 ```
 
-<Note>166 currencies are supported in total.</Note>
+<Note>166+ currencies are supported. The response includes all available currency codes sorted alphabetically.</Note>

@@ -7,7 +7,7 @@ description: Get statistics about the sanctions database.
 
 <Info>**Credits:** Free</Info>
 
-Returns statistics about the current sanctions database, including total entities and breakdown by source.
+Returns statistics about the current sanctions database, including total entities, breakdown by entity type, and index term count.
 
 ## Request
 
@@ -19,7 +19,7 @@ GET /services/sanctions/stats
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/sanctions/stats" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 </CodeGroup>
@@ -28,12 +28,13 @@ curl -X GET "https://api.edge.bh/api/v1/services/sanctions/stats" \
 
 ```json
 {
-  "total_entities": 1200000,
-  "sources": {
-    "OFAC": 850000,
-    "UN": 250000,
-    "UK_OFSI": 100000
+  "total_entries": 1200000,
+  "types": {
+    "Entity": 650000,
+    "Individual": 450000,
+    "Vessel": 80000,
+    "Aircraft": 20000
   },
-  "last_updated": "2026-03-15T00:00:00Z"
+  "index_terms": 3500000
 }
 ```

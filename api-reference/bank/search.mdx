@@ -1,13 +1,13 @@
 ---
 title: Search Banks
-description: Search for banks globally by name.
+description: Search for banks globally by name or BIC.
 ---
 
 # Search Banks
 
 <Info>**Credits:** 1 per call</Info>
 
-Search for banks across all countries by name.
+Search for banks across all countries by name or BIC code. Query must be at least 2 characters.
 
 ## Request
 
@@ -16,22 +16,22 @@ GET /services/bank/search
 ```
 
 <ParamField query="q" type="string" required>
-  Search query (bank name).
+  Search query (bank name or BIC). Must be at least 2 characters.
 </ParamField>
 
 <ParamField query="page" type="integer" default="1">
   Page number.
 </ParamField>
 
-<ParamField query="per_page" type="integer" default="25">
-  Results per page.
+<ParamField query="per_page" type="integer" default="20">
+  Results per page (max 100).
 </ParamField>
 
 <CodeGroup>
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/bank/search?q=deutsche+bank" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 </CodeGroup>
@@ -40,17 +40,18 @@ curl -X GET "https://api.edge.bh/api/v1/services/bank/search?q=deutsche+bank" \
 
 ```json
 {
-  "query": "deutsche bank",
-  "banks": [
+  "search": "deutsche bank",
+  "results": [
     {
-      "bank_name": "Deutsche Bank AG",
       "bic": "DEUTDEFF",
-      "country": "DE",
+      "bank_code": "50070010",
+      "bank": "Deutsche Bank AG",
+      "country_code": "DE",
       "city": "Frankfurt am Main"
     }
   ],
   "total": 1,
   "page": 1,
-  "per_page": 25
+  "per_page": 20
 }
 ```

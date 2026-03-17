@@ -27,7 +27,7 @@ GET /services/fx/latest
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/fx/latest?base=USD&symbols=EUR,GBP,BHD" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -35,7 +35,7 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/fx/latest",
-    headers={"X-Api-Key": "sk_live_your_key_here"},
+    headers={"Authorization": "Bearer sk_live_your_key_here"},
     params={"base": "USD", "symbols": "EUR,GBP,BHD"}
 )
 ```

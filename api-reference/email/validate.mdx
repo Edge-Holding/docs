@@ -7,7 +7,7 @@ description: Validate an email address — format, MX records, and disposable do
 
 <Info>**Credits:** 1 per call</Info>
 
-Validates an email address by checking format, MX records, disposable domain detection, and risk scoring.
+Validates an email address by checking format, domain existence, MX records, disposable domain detection, free provider detection, role-based address detection, and risk scoring.
 
 ## Request
 
@@ -25,7 +25,7 @@ Both `GET` and `POST` methods are supported. For `POST`, pass the email in the r
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/email/validate/john@example.com" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -33,7 +33,7 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/email/validate/john@example.com",
-    headers={"X-Api-Key": "sk_live_your_key_here"}
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
 )
 ```
 
@@ -45,32 +45,80 @@ response = requests.get(
 {
   "email": "john@example.com",
   "valid": true,
-  "format_valid": true,
-  "mx_found": true,
+  "checks": {
+    "format": true,
+    "domain_exists": true,
+    "mx_records": true,
+    "not_disposable": true,
+    "domain_length": true,
+    "local_length": true
+  },
+  "local_part": "john",
+  "domain": "example.com",
+  "mx_records": ["mx1.example.com", "mx2.example.com"],
   "disposable": false,
-  "risk_score": 0.1,
-  "domain": "example.com"
+  "free_provider": false,
+  "role_based": false,
+  "score": 1.0,
+  "risk": "none",
+  "reason": null
 }
 ```
 
 ### Response fields
 
+<ResponseField name="email" type="string">
+  The normalized (lowercased, trimmed) email address.
+</ResponseField>
+
 <ResponseField name="valid" type="boolean">
-  Overall validation result.
+  Overall validation result. `true` if format is valid, domain exists or has MX records, and length checks pass.
 </ResponseField>
 
-<ResponseField name="format_valid" type="boolean">
-  Whether the email format is correct (RFC 5322).
+<ResponseField name="checks" type="object">
+  Individual validation check results.
+  <Expandable>
+    <ResponseField name="format" type="boolean">Whether the email format is valid.</ResponseField>
+    <ResponseField name="domain_exists" type="boolean">Whether the domain has A or AAAA DNS records.</ResponseField>
+    <ResponseField name="mx_records" type="boolean">Whether the domain has MX (mail exchange) records.</ResponseField>
+    <ResponseField name="not_disposable" type="boolean">Whether the domain is NOT a known disposable/temporary email provider.</ResponseField>
+    <ResponseField name="domain_length" type="boolean">Whether the domain is 253 characters or fewer.</ResponseField>
+    <ResponseField name="local_length" type="boolean">Whether the local part is 64 characters or fewer.</ResponseField>
+  </Expandable>
 </ResponseField>
 
-<ResponseField name="mx_found" type="boolean">
-  Whether the domain has MX (mail exchange) records.
+<ResponseField name="local_part" type="string">
+  The part of the email before the `@` symbol.
+</ResponseField>
+
+<ResponseField name="domain" type="string">
+  The domain part of the email address.
+</ResponseField>
+
+<ResponseField name="mx_records" type="array">
+  List of MX record hostnames for the domain. Empty array if none found.
 </ResponseField>
 
 <ResponseField name="disposable" type="boolean">
   Whether the domain is a known disposable/temporary email provider.
 </ResponseField>
 
-<ResponseField name="risk_score" type="number">
-  Risk score from 0.0 (safe) to 1.0 (high risk).
+<ResponseField name="free_provider" type="boolean">
+  Whether the domain is a free email provider (e.g., gmail.com, yahoo.com).
+</ResponseField>
+
+<ResponseField name="role_based" type="boolean">
+  Whether the email uses a role-based prefix (e.g., admin@, support@, info@).
+</ResponseField>
+
+<ResponseField name="score" type="number">
+  Quality score from 0.0 (poor) to 1.0 (excellent). Calculated from: format (0.2), domain exists (0.2), MX records (0.3), not disposable (0.2), not role-based (0.1).
+</ResponseField>
+
+<ResponseField name="risk" type="string">
+  Risk level: `high` (disposable domain or non-existent domain), `medium` (no MX records), `low` (role-based address), or `none`.
+</ResponseField>
+
+<ResponseField name="reason" type="string | null">
+  Human-readable explanation for the risk level. `null` when risk is `none`.
 </ResponseField>

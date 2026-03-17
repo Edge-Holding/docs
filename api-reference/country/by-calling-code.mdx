@@ -23,7 +23,16 @@ GET /services/country/calling-code/{code}
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/country/calling-code/973" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/country/calling-code/973",
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
+)
 ```
 
 </CodeGroup>
@@ -36,9 +45,41 @@ curl -X GET "https://api.edge.bh/api/v1/services/country/calling-code/973" \
   "countries": [
     {
       "code": "BH",
-      "name": "Bahrain"
+      "code3": "BHR",
+      "name": "Bahrain",
+      "official_name": "Kingdom of Bahrain",
+      "native_name": { "ara": { "common": "\u0627\u0644\u0628\u062d\u0631\u064a\u0646", "official": "\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0628\u062d\u0631\u064a\u0646" } },
+      "flag": "\ud83c\udde7\ud83c\udded",
+      "flag_url": "https://flagcdn.com/w320/bh.png",
+      "capital": "Manama",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "population": 1501635,
+      "area_km2": 765,
+      "currencies": [
+        { "code": "BHD", "name": "Bahraini dinar", "symbol": ".د.ب" }
+      ],
+      "languages": { "ara": "Arabic" },
+      "calling_code": "+973",
+      "timezones": ["UTC+03:00"],
+      "latlng": [26, 50.55],
+      "borders": ["SAU"]
     }
   ],
   "total": 1
 }
 ```
+
+### Response fields
+
+<ResponseField name="calling_code" type="string">
+  The calling code that was searched (with `+` prefix).
+</ResponseField>
+
+<ResponseField name="countries" type="array">
+  List of countries using this calling code. Each country uses the full format (same fields as [Country Lookup](/api-reference/country/lookup)).
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of matching countries.
+</ResponseField>

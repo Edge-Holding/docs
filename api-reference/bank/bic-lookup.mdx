@@ -7,7 +7,7 @@ description: Look up bank details by BIC/SWIFT code.
 
 <Info>**Credits:** 1 per call</Info>
 
-Look up bank details using a BIC (Bank Identifier Code), also known as a SWIFT code.
+Look up bank details using a BIC (Bank Identifier Code), also known as a SWIFT code. Matches on the full BIC or the first 8 characters.
 
 ## Request
 
@@ -23,7 +23,7 @@ GET /services/bank/bic/{bic}
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/bank/bic/NWBKGB2L" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 </CodeGroup>
@@ -33,9 +33,23 @@ curl -X GET "https://api.edge.bh/api/v1/services/bank/bic/NWBKGB2L" \
 ```json
 {
   "bic": "NWBKGB2L",
-  "bank_name": "NATIONAL WESTMINSTER BANK PLC",
-  "country": "GB",
-  "city": "London",
-  "branch": null
+  "found": true,
+  "count": 1,
+  "results": [
+    {
+      "bic": "NWBKGB2LXXX",
+      "bank_code": "601613",
+      "bank": "NATIONAL WESTMINSTER BANK PLC",
+      "country_code": "GB",
+      "city": "London",
+      "address": "135 Bishopsgate",
+      "zip": "EC2M 3UR",
+      "state": null,
+      "phone": "+44 20 7175 5000",
+      "fax": null,
+      "www": "https://www.natwest.com",
+      "email": null
+    }
+  ]
 }
 ```

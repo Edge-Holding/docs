@@ -7,7 +7,7 @@ description: Look up commercial registration details in Bahrain.
 
 <Info>**Credits:** 10 per call</Info>
 
-Retrieve full details of a commercial registration in Bahrain, including company information, shareholders, board members, branches, and activities.
+Retrieve full details of a commercial registration in Bahrain, including company information, address, activities, shareholders, authorized signatories, board of directors, capital details, and branches.
 
 ## Request
 
@@ -15,11 +15,13 @@ Retrieve full details of a commercial registration in Bahrain, including company
 GET /services/cr/bh/lookup/{crNumber}
 ```
 
+Both `GET` and `POST` methods are supported.
+
 <ParamField path="crNumber" type="string" required>
   The commercial registration number.
 </ParamField>
 
-<ParamField query="branch" type="string">
+<ParamField query="branch" type="string" default="1">
   Specific branch number to look up.
 </ParamField>
 
@@ -33,7 +35,7 @@ GET /services/cr/bh/lookup/{crNumber}
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/cr/bh/lookup/12345" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -41,7 +43,7 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/cr/bh/lookup/12345",
-    headers={"X-Api-Key": "sk_live_your_key_here"}
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
 )
 ```
 
@@ -52,38 +54,166 @@ response = requests.get(
 ```json
 {
   "cr_number": "12345",
-  "company_name_en": "Example Trading Co.",
-  "company_name_ar": "شركة المثال التجارية",
-  "status": "Active",
+  "branch_number": "1",
+  "name_en": "Example Trading Co. W.L.L.",
+  "name_ar": "\u0634\u0631\u0643\u0629 \u0627\u0644\u0645\u062b\u0627\u0644 \u0627\u0644\u062a\u062c\u0627\u0631\u064a\u0629 \u0630.\u0645.\u0645",
   "company_type": "W.L.L.",
+  "company_type_code": "WLL",
+  "status": "Active",
+  "status_color": "GREEN",
+  "nationality": "Bahraini",
   "registration_date": "2020-01-15",
   "expiry_date": "2025-01-15",
-  "activities": [
-    {
-      "code": "4719",
-      "description": "General Trading"
-    }
-  ],
+  "duration": "5",
+  "financial_year_end": "31/12",
   "address": {
     "flat": "101",
     "building": "500",
     "road": "1234",
+    "road_name": "Government Avenue",
     "block": "321",
-    "municipality": "Capital"
+    "area": "Manama",
+    "po_box": "12345",
+    "email": "info@example.com",
+    "phone": "+97317000000",
+    "mobile": "+97336000000",
+    "fax": "+97317000001",
+    "website": "https://example.com"
   },
+  "activities": [
+    {
+      "code": "4719",
+      "isic4_code": "4719",
+      "name": "Other retail sale in non-specialized stores",
+      "description": "General Trading"
+    }
+  ],
   "shareholders": [
     {
       "name_en": "Ahmed Ali",
+      "name_ar": "\u0623\u062d\u0645\u062f \u0639\u0644\u064a",
       "nationality": "Bahraini",
-      "shares_percentage": 51.0
+      "share_ratio": "51.00"
     }
   ],
-  "board_members": [
+  "authorized_signatories": [
     {
       "name_en": "Ahmed Ali",
+      "name_ar": "\u0623\u062d\u0645\u062f \u0639\u0644\u064a",
+      "nationality": "Bahraini",
+      "country": "Bahrain",
+      "signature_level": "A"
+    }
+  ],
+  "board_of_directors": [
+    {
+      "name_en": "Ahmed Ali",
+      "name_ar": "\u0623\u062d\u0645\u062f \u0639\u0644\u064a",
+      "nationality": "Bahraini",
       "position": "Managing Director"
     }
   ],
-  "branches": []
+  "capital": null,
+  "social_urls": null,
+  "branches": [
+    {
+      "cr_number": "12345",
+      "branch_number": "2",
+      "name": "Example Trading Co. - Branch",
+      "status": "Active",
+      "registration_date": "2021-06-01",
+      "expiry_date": "2025-01-15"
+    }
+  ]
 }
 ```
+
+### Response fields
+
+<ResponseField name="cr_number" type="string">Commercial registration number.</ResponseField>
+<ResponseField name="branch_number" type="string">Branch number.</ResponseField>
+<ResponseField name="name_en" type="string">Company name in English.</ResponseField>
+<ResponseField name="name_ar" type="string">Company name in Arabic.</ResponseField>
+<ResponseField name="company_type" type="string">Company type description (e.g., W.L.L., B.S.C.).</ResponseField>
+<ResponseField name="company_type_code" type="string">Company type code.</ResponseField>
+<ResponseField name="status" type="string">Registration status.</ResponseField>
+<ResponseField name="status_color" type="string">Status color indicator.</ResponseField>
+<ResponseField name="nationality" type="string">Company nationality.</ResponseField>
+<ResponseField name="registration_date" type="string">Registration date.</ResponseField>
+<ResponseField name="expiry_date" type="string">Registration expiry date.</ResponseField>
+<ResponseField name="duration" type="string">Registration duration.</ResponseField>
+<ResponseField name="financial_year_end" type="string">Financial year end date.</ResponseField>
+
+<ResponseField name="address" type="object">
+  Commercial address.
+  <Expandable>
+    <ResponseField name="flat" type="string | null">Flat/unit number.</ResponseField>
+    <ResponseField name="building" type="string | null">Building number.</ResponseField>
+    <ResponseField name="road" type="string | null">Road number.</ResponseField>
+    <ResponseField name="road_name" type="string | null">Road name.</ResponseField>
+    <ResponseField name="block" type="string | null">Block number.</ResponseField>
+    <ResponseField name="area" type="string | null">Area/town name.</ResponseField>
+    <ResponseField name="po_box" type="string | null">P.O. Box.</ResponseField>
+    <ResponseField name="email" type="string | null">Contact email.</ResponseField>
+    <ResponseField name="phone" type="string | null">Phone number.</ResponseField>
+    <ResponseField name="mobile" type="string | null">Mobile number.</ResponseField>
+    <ResponseField name="fax" type="string | null">Fax number.</ResponseField>
+    <ResponseField name="website" type="string | null">Website URL.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="activities" type="array">
+  Business activities.
+  <Expandable>
+    <ResponseField name="code" type="string">Activity code.</ResponseField>
+    <ResponseField name="isic4_code" type="string">ISIC4 classification code.</ResponseField>
+    <ResponseField name="name" type="string">Activity name.</ResponseField>
+    <ResponseField name="description" type="string">Activity description.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="shareholders" type="array">
+  Shareholders and partners.
+  <Expandable>
+    <ResponseField name="name_en" type="string">Name in English.</ResponseField>
+    <ResponseField name="name_ar" type="string">Name in Arabic.</ResponseField>
+    <ResponseField name="nationality" type="string">Nationality.</ResponseField>
+    <ResponseField name="share_ratio" type="string">Share percentage.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="authorized_signatories" type="array">
+  Authorized signatories.
+  <Expandable>
+    <ResponseField name="name_en" type="string">Name in English.</ResponseField>
+    <ResponseField name="name_ar" type="string">Name in Arabic.</ResponseField>
+    <ResponseField name="nationality" type="string">Nationality.</ResponseField>
+    <ResponseField name="country" type="string">Country.</ResponseField>
+    <ResponseField name="signature_level" type="string">Signature authorization level.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="board_of_directors" type="array">
+  Board of directors.
+  <Expandable>
+    <ResponseField name="name_en" type="string">Name in English.</ResponseField>
+    <ResponseField name="name_ar" type="string">Name in Arabic.</ResponseField>
+    <ResponseField name="nationality" type="string">Nationality.</ResponseField>
+    <ResponseField name="position" type="string">Board position.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="capital" type="object | null">Company capital details.</ResponseField>
+<ResponseField name="social_urls" type="object | null">Social media URLs.</ResponseField>
+
+<ResponseField name="branches" type="array">
+  Other branches.
+  <Expandable>
+    <ResponseField name="cr_number" type="string">CR number.</ResponseField>
+    <ResponseField name="branch_number" type="string">Branch number.</ResponseField>
+    <ResponseField name="name" type="string">Branch name.</ResponseField>
+    <ResponseField name="status" type="string">Branch status.</ResponseField>
+    <ResponseField name="registration_date" type="string">Registration date.</ResponseField>
+    <ResponseField name="expiry_date" type="string">Expiry date.</ResponseField>
+  </Expandable>
+</ResponseField>

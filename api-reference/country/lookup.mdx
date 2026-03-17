@@ -7,7 +7,7 @@ description: Get detailed information about a specific country.
 
 <Info>**Credits:** 1 per call</Info>
 
-Returns detailed information about a country including currencies, languages, calling codes, timezones, and more.
+Returns detailed information about a country including currencies, languages, calling codes, timezones, borders, and more.
 
 ## Request
 
@@ -16,14 +16,23 @@ GET /services/country/{code}
 ```
 
 <ParamField path="code" type="string" required>
-  ISO 3166-1 alpha-2 country code. Example: `BH`, `US`, `GB`.
+  ISO 3166-1 alpha-2 or alpha-3 country code. Example: `BH`, `BHR`, `US`, `USA`.
 </ParamField>
 
 <CodeGroup>
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/country/BH" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/country/BH",
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
+)
 ```
 
 </CodeGroup>
@@ -33,17 +42,50 @@ curl -X GET "https://api.edge.bh/api/v1/services/country/BH" \
 ```json
 {
   "code": "BH",
+  "code3": "BHR",
   "name": "Bahrain",
   "official_name": "Kingdom of Bahrain",
+  "native_name": {
+    "ara": {
+      "common": "\u0627\u0644\u0628\u062d\u0631\u064a\u0646",
+      "official": "\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0628\u062d\u0631\u064a\u0646"
+    }
+  },
+  "flag": "\ud83c\udde7\ud83c\udded",
+  "flag_url": "https://flagcdn.com/w320/bh.png",
   "capital": "Manama",
   "region": "Asia",
   "subregion": "Western Asia",
+  "population": 1501635,
+  "area_km2": 765,
   "currencies": [
     { "code": "BHD", "name": "Bahraini dinar", "symbol": ".د.ب" }
   ],
-  "languages": ["Arabic"],
-  "calling_codes": ["+973"],
+  "languages": { "ara": "Arabic" },
+  "calling_code": "+973",
   "timezones": ["UTC+03:00"],
-  "flag": "🇧🇭"
+  "latlng": [26, 50.55],
+  "borders": ["SAU"]
 }
 ```
+
+### Response fields
+
+<ResponseField name="code" type="string">ISO 3166-1 alpha-2 code.</ResponseField>
+<ResponseField name="code3" type="string">ISO 3166-1 alpha-3 code.</ResponseField>
+<ResponseField name="name" type="string">Common country name.</ResponseField>
+<ResponseField name="official_name" type="string">Official country name.</ResponseField>
+<ResponseField name="native_name" type="object | null">Native names keyed by language code, each with `common` and `official`.</ResponseField>
+<ResponseField name="flag" type="string">Flag emoji.</ResponseField>
+<ResponseField name="flag_url" type="string | null">URL to a PNG flag image.</ResponseField>
+<ResponseField name="capital" type="string | null">Capital city name.</ResponseField>
+<ResponseField name="region" type="string">Geographic region (e.g., Asia, Europe).</ResponseField>
+<ResponseField name="subregion" type="string">Geographic subregion (e.g., Western Asia).</ResponseField>
+<ResponseField name="population" type="integer">Country population.</ResponseField>
+<ResponseField name="area_km2" type="number | null">Area in square kilometers.</ResponseField>
+<ResponseField name="currencies" type="array">List of currencies, each with `code`, `name`, and `symbol`.</ResponseField>
+<ResponseField name="languages" type="object">Languages keyed by language code.</ResponseField>
+<ResponseField name="calling_code" type="string">Phone calling code with `+` prefix.</ResponseField>
+<ResponseField name="timezones" type="array">List of timezone strings.</ResponseField>
+<ResponseField name="latlng" type="array">Latitude and longitude coordinates.</ResponseField>
+<ResponseField name="borders" type="array">List of bordering country alpha-3 codes.</ResponseField>

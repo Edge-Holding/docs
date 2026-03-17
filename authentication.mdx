@@ -5,7 +5,7 @@ description: How to authenticate API requests with your Edge API key.
 
 # Authentication
 
-All API requests are authenticated using an API key passed in the `X-Api-Key` header.
+All API requests are authenticated using an API key passed as a Bearer token in the `Authorization` header.
 
 ## Getting your API key
 
@@ -16,11 +16,11 @@ All API requests are authenticated using an API key passed in the `X-Api-Key` he
 
 ## Using your API key
 
-Include the `X-Api-Key` header in every request:
+Include the `Authorization: Bearer` header in every request:
 
 ```bash
 curl -X GET "https://api.edge.bh/api/v1/services/iban/validate/DE89370400440532013000" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ## Key format

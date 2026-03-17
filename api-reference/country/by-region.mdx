@@ -1,13 +1,13 @@
 ---
 title: Countries by Region
-description: List all countries in a region.
+description: List all countries in a region or subregion.
 ---
 
 # Countries by Region
 
 <Info>**Credits:** 1 per call</Info>
 
-Returns all countries in the specified geographic region.
+Returns all countries in the specified geographic region or subregion, sorted alphabetically by name.
 
 ## Request
 
@@ -16,14 +16,23 @@ GET /services/country/region/{region}
 ```
 
 <ParamField path="region" type="string" required>
-  Region name: `Africa`, `Americas`, `Asia`, `Europe`, or `Oceania`.
+  Region or subregion name (case-insensitive). Examples: `Africa`, `Americas`, `Asia`, `Europe`, `Oceania`, `Western Asia`, `Northern Europe`.
 </ParamField>
 
 <CodeGroup>
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/country/region/Asia" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/country/region/Asia",
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
+)
 ```
 
 </CodeGroup>
@@ -34,10 +43,44 @@ curl -X GET "https://api.edge.bh/api/v1/services/country/region/Asia" \
 {
   "region": "Asia",
   "countries": [
-    { "code": "BH", "name": "Bahrain" },
-    { "code": "AE", "name": "United Arab Emirates" },
-    { "code": "SA", "name": "Saudi Arabia" }
+    {
+      "code": "BH",
+      "name": "Bahrain",
+      "flag": "\ud83c\udde7\ud83c\udded",
+      "capital": "Manama",
+      "population": 1501635
+    },
+    {
+      "code": "SA",
+      "name": "Saudi Arabia",
+      "flag": "\ud83c\uddf8\ud83c\udde6",
+      "capital": "Riyadh",
+      "population": 34813871
+    }
   ],
   "total": 50
 }
 ```
+
+<Note>The by-region endpoint returns a simplified country format with `code`, `name`, `flag`, `capital`, and `population` fields only.</Note>
+
+### Response fields
+
+<ResponseField name="region" type="string">
+  The region name as provided in the request.
+</ResponseField>
+
+<ResponseField name="countries" type="array">
+  List of countries in the region.
+  <Expandable>
+    <ResponseField name="code" type="string">ISO 3166-1 alpha-2 code.</ResponseField>
+    <ResponseField name="name" type="string">Common country name.</ResponseField>
+    <ResponseField name="flag" type="string">Flag emoji.</ResponseField>
+    <ResponseField name="capital" type="string | null">Capital city name.</ResponseField>
+    <ResponseField name="population" type="integer">Country population.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of countries in the region.
+</ResponseField>

@@ -18,14 +18,14 @@ GET /services/phone/validate/{phone}
 Both `GET` and `POST` methods are supported. For `POST`, pass the phone number in the request body.
 
 <ParamField path="phone" type="string" required>
-  The phone number to validate. Include country code for best results.
+  The phone number to validate. Include country calling code (with `+`) for best results.
 </ParamField>
 
 <CodeGroup>
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/phone/validate/+97317000000" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -33,7 +33,7 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/phone/validate/+97317000000",
-    headers={"X-Api-Key": "sk_live_your_key_here"}
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
 )
 ```
 
@@ -45,44 +45,64 @@ response = requests.get(
 {
   "phone": "+97317000000",
   "valid": true,
-  "format": {
-    "international": "+973 1700 0000",
-    "national": "1700 0000",
-    "e164": "+97317000000"
+  "e164": "+97317000000",
+  "international": "+973 17000000",
+  "national_number": "17000000",
+  "calling_code": "+973",
+  "country_code": "BH",
+  "type": "landline",
+  "checks": {
+    "format": true,
+    "country_detected": true,
+    "valid_length": true
   },
-  "country": {
-    "code": "BH",
-    "name": "Bahrain",
-    "calling_code": "+973"
-  },
-  "type": "landline"
+  "reason": null
 }
 ```
 
 ### Response fields
 
+<ResponseField name="phone" type="string">
+  The original phone number as provided.
+</ResponseField>
+
 <ResponseField name="valid" type="boolean">
-  Whether the phone number is valid.
+  Whether the phone number is valid (country detected and length matches expected format).
 </ResponseField>
 
-<ResponseField name="format" type="object">
-  Formatted versions of the number.
-  <Expandable>
-    <ResponseField name="international" type="string">International format with spaces.</ResponseField>
-    <ResponseField name="national" type="string">National format without country code.</ResponseField>
-    <ResponseField name="e164" type="string">E.164 format (recommended for storage).</ResponseField>
-  </Expandable>
+<ResponseField name="e164" type="string | null">
+  E.164 formatted number (e.g., `+97317000000`). Recommended format for storage. `null` if country could not be detected.
 </ResponseField>
 
-<ResponseField name="country" type="object">
-  Detected country.
-  <Expandable>
-    <ResponseField name="code" type="string">ISO 3166-1 alpha-2 code.</ResponseField>
-    <ResponseField name="name" type="string">Country name.</ResponseField>
-    <ResponseField name="calling_code" type="string">Calling code.</ResponseField>
-  </Expandable>
+<ResponseField name="international" type="string | null">
+  International format with space after calling code (e.g., `+973 17000000`). `null` if country could not be detected.
+</ResponseField>
+
+<ResponseField name="national_number" type="string | null">
+  The national number without the calling code. `null` if country could not be detected.
+</ResponseField>
+
+<ResponseField name="calling_code" type="string | null">
+  The detected calling code with `+` prefix (e.g., `+973`). `null` if not detected.
+</ResponseField>
+
+<ResponseField name="country_code" type="string | null">
+  ISO 3166-1 alpha-2 country code (e.g., `BH`). `null` if country could not be detected.
 </ResponseField>
 
 <ResponseField name="type" type="string">
-  Line type: `mobile`, `landline`, `voip`, `toll_free`, or `unknown`.
+  Line type: `mobile`, `landline`, or `unknown`.
+</ResponseField>
+
+<ResponseField name="checks" type="object">
+  Individual validation check results.
+  <Expandable>
+    <ResponseField name="format" type="boolean">Whether the number has between 7 and 15 digits.</ResponseField>
+    <ResponseField name="country_detected" type="boolean">Whether a country was detected from the calling code.</ResponseField>
+    <ResponseField name="valid_length" type="boolean">Whether the national number length matches the expected length for the detected country.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="reason" type="string | null">
+  Human-readable explanation when the number is invalid. `null` when valid.
 </ResponseField>

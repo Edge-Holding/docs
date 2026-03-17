@@ -23,7 +23,7 @@ GET /services/fx/convert
   Target currency code (ISO 4217).
 </ParamField>
 
-<ParamField query="amount" type="number" required>
+<ParamField query="amount" type="number" default="1">
   Amount to convert.
 </ParamField>
 
@@ -35,7 +35,7 @@ GET /services/fx/convert
 
 ```bash cURL
 curl -X GET "https://api.edge.bh/api/v1/services/fx/convert?from=USD&to=BHD&amount=1000" \
-  -H "X-Api-Key: sk_live_your_key_here"
+  -H "Authorization: Bearer sk_live_your_key_here"
 ```
 
 ```python Python
@@ -43,7 +43,7 @@ import requests
 
 response = requests.get(
     "https://api.edge.bh/api/v1/services/fx/convert",
-    headers={"X-Api-Key": "sk_live_your_key_here"},
+    headers={"Authorization": "Bearer sk_live_your_key_here"},
     params={"from": "USD", "to": "BHD", "amount": 1000}
 )
 ```
@@ -57,8 +57,8 @@ response = requests.get(
   "from": "USD",
   "to": "BHD",
   "amount": 1000,
-  "result": 376.00,
-  "rate": 0.3760,
+  "rate": 0.376,
+  "result": 376.0,
   "date": "2026-03-17"
 }
 ```
