@@ -155,5 +155,8 @@
   "feedback": {
     "suggestEdit": true,
     "raiseIssue": true
+  },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "cursor"]
   }
 }
