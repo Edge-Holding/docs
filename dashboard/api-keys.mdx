@@ -1,0 +1,43 @@
+---
+title: API Keys
+description: Create and manage your API keys.
+---
+
+# API Keys
+
+API keys are used to authenticate your API requests. Each key is scoped to your organization.
+
+## Creating a key
+
+1. Go to **API Keys** in your dashboard
+2. Click **Create API Key**
+3. Enter a name for the key
+4. Optionally set an expiration date
+5. Click **Create**
+
+<Warning>
+Your API key is displayed only once. Copy it immediately and store it in a secure location like a password manager or environment variable.
+</Warning>
+
+## Key security
+
+- Keys are **hashed with SHA-256** before storage — Edge never stores the raw key
+- The key prefix (first 8 characters) is stored for identification
+- Keys can be **revoked** at any time — revoked keys stop working immediately
+- Set **expiration dates** for time-limited access
+
+## Revoking a key
+
+1. Go to **API Keys**
+2. Find the key you want to revoke
+3. Click **Revoke**
+
+Revoked keys cannot be un-revoked. Create a new key if needed.
+
+## Key limits
+
+| Plan | Max API Keys |
+| --- | --- |
+| Free | 1 |
+| Pay-as-you-go | 5 |
+| Monthly / Annual | Unlimited |

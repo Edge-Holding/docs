@@ -1,0 +1,57 @@
+---
+title: Latest Exchange Rates
+description: Get the latest exchange rates for a base currency.
+---
+
+# Latest Exchange Rates
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns the latest exchange rates for a given base currency. Supports 166 currencies.
+
+## Request
+
+```bash
+GET /services/fx/latest
+```
+
+<ParamField query="base" type="string" default="USD">
+  The base currency code (ISO 4217). Example: `USD`, `EUR`, `GBP`.
+</ParamField>
+
+<ParamField query="symbols" type="string">
+  Comma-separated list of target currency codes. If omitted, returns all available currencies.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/fx/latest?base=USD&symbols=EUR,GBP,BHD" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/fx/latest",
+    headers={"X-Api-Key": "sk_live_your_key_here"},
+    params={"base": "USD", "symbols": "EUR,GBP,BHD"}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "base": "USD",
+  "date": "2026-03-17",
+  "rates": {
+    "EUR": 0.9234,
+    "GBP": 0.7891,
+    "BHD": 0.3760
+  }
+}
+```

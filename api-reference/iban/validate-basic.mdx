@@ -1,0 +1,55 @@
+---
+title: Validate IBAN (Basic)
+description: Quick IBAN validation — checksum and format check only.
+---
+
+# Validate IBAN (Basic)
+
+<Info>**Credits:** 1 per call</Info>
+
+A lightweight validation that checks the IBAN format and checksum without looking up bank details. Use this when you only need to verify if an IBAN is structurally valid.
+
+## Request
+
+<ParamField path="iban" type="string" required>
+  The IBAN to validate.
+</ParamField>
+
+```bash
+GET /services/iban/validate-basic/{iban}
+```
+
+Both `GET` and `POST` methods are supported.
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/iban/validate-basic/DE89370400440532013000" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/iban/validate-basic/DE89370400440532013000",
+    headers={"X-Api-Key": "sk_live_your_key_here"}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "valid": true,
+  "iban": "DE89370400440532013000",
+  "country": {
+    "code": "DE",
+    "name": "Germany"
+  },
+  "checksum_valid": true,
+  "format_valid": true
+}
+```

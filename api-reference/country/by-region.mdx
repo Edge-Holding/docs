@@ -1,0 +1,43 @@
+---
+title: Countries by Region
+description: List all countries in a region.
+---
+
+# Countries by Region
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns all countries in the specified geographic region.
+
+## Request
+
+```bash
+GET /services/country/region/{region}
+```
+
+<ParamField path="region" type="string" required>
+  Region name: `Africa`, `Americas`, `Asia`, `Europe`, or `Oceania`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/country/region/Asia" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "region": "Asia",
+  "countries": [
+    { "code": "BH", "name": "Bahrain" },
+    { "code": "AE", "name": "United Arab Emirates" },
+    { "code": "SA", "name": "Saudi Arabia" }
+  ],
+  "total": 50
+}
+```

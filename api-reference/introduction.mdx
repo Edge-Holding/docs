@@ -1,33 +1,46 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: API Reference
+description: Complete reference for all Edge API endpoints.
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+# API Reference
 
-## Welcome
+Base URL for all API requests:
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://api.edge.bh/api/v1
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All service endpoints require an API key passed in the `X-Api-Key` header:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```bash
+curl -X GET "https://api.edge.bh/api/v1/services/iban/validate/GB29NWBK60161331926819" \
+  -H "X-Api-Key: sk_live_your_key_here"
 ```
+
+## Available services
+
+| Service | Base Path | Credits |
+| --- | --- | --- |
+| [IBAN Validation](/api-reference/iban/validate) | `/services/iban/` | 1-3 per call |
+| [Sanctions Screening](/api-reference/sanctions/screen) | `/services/sanctions/` | 5 per call |
+| [Exchange Rates](/api-reference/fx/latest) | `/services/fx/` | 1 per call |
+| [Bank Directory](/api-reference/bank/bic-lookup) | `/services/bank/` | 1 per call |
+| [Commercial Registry](/api-reference/cr/lookup) | `/services/cr/` | 3-10 per call |
+| [Country Data](/api-reference/country/lookup) | `/services/country/` | 1 per call |
+| [Email Validation](/api-reference/email/validate) | `/services/email/` | 1 per call |
+| [Phone Validation](/api-reference/phone/validate) | `/services/phone/` | 1 per call |
+
+## Response format
+
+All responses are JSON. Successful responses return `200` with the data. Error responses include a `message` field.
+
+## Rate limits
+
+| Plan | Limit |
+| --- | --- |
+| Free | 10 requests/minute |
+| Pay-as-you-go | 60 requests/minute |
+| Monthly / Annual | 200 requests/minute |

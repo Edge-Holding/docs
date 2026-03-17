@@ -1,0 +1,41 @@
+---
+title: BIC/SWIFT Lookup
+description: Look up bank details by BIC/SWIFT code.
+---
+
+# BIC/SWIFT Lookup
+
+<Info>**Credits:** 1 per call</Info>
+
+Look up bank details using a BIC (Bank Identifier Code), also known as a SWIFT code.
+
+## Request
+
+```bash
+GET /services/bank/bic/{bic}
+```
+
+<ParamField path="bic" type="string" required>
+  The BIC/SWIFT code (8 or 11 characters). Example: `NWBKGB2L` or `NWBKGB2LXXX`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/bank/bic/NWBKGB2L" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "bic": "NWBKGB2L",
+  "bank_name": "NATIONAL WESTMINSTER BANK PLC",
+  "country": "GB",
+  "city": "London",
+  "branch": null
+}
+```

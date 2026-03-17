@@ -1,0 +1,49 @@
+---
+title: Country Lookup
+description: Get detailed information about a specific country.
+---
+
+# Country Lookup
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns detailed information about a country including currencies, languages, calling codes, timezones, and more.
+
+## Request
+
+```bash
+GET /services/country/{code}
+```
+
+<ParamField path="code" type="string" required>
+  ISO 3166-1 alpha-2 country code. Example: `BH`, `US`, `GB`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/country/BH" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "code": "BH",
+  "name": "Bahrain",
+  "official_name": "Kingdom of Bahrain",
+  "capital": "Manama",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "currencies": [
+    { "code": "BHD", "name": "Bahraini dinar", "symbol": ".د.ب" }
+  ],
+  "languages": ["Arabic"],
+  "calling_codes": ["+973"],
+  "timezones": ["UTC+03:00"],
+  "flag": "🇧🇭"
+}
+```

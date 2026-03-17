@@ -1,0 +1,53 @@
+---
+title: Authentication
+description: How to authenticate API requests with your Edge API key.
+---
+
+# Authentication
+
+All API requests are authenticated using an API key passed in the `X-Api-Key` header.
+
+## Getting your API key
+
+1. Sign in at [app.edge.bh](https://app.edge.bh)
+2. Navigate to **API Keys**
+3. Click **Create API Key**
+4. Copy the key immediately — it's shown only once
+
+## Using your API key
+
+Include the `X-Api-Key` header in every request:
+
+```bash
+curl -X GET "https://api.edge.bh/api/v1/services/iban/validate/DE89370400440532013000" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+## Key format
+
+API keys follow the format `sk_live_` followed by a random string. Example: `sk_live_abc123def456...`
+
+## Security
+
+- Keys are **hashed with SHA-256** before storage. Edge never stores your raw key.
+- Keys are shown **once on creation**. If you lose it, revoke it and create a new one.
+- Set an **expiration date** when creating keys for additional security.
+- **Revoke keys** immediately if compromised — go to API Keys and click Revoke.
+
+## Key management
+
+| Action | How |
+| --- | --- |
+| Create a key | Dashboard → API Keys → Create API Key |
+| Revoke a key | Dashboard → API Keys → click Revoke on the key |
+| Set expiration | Set "Expires at" when creating the key |
+| View usage | Dashboard → Request Logs (filter by key) |
+
+## Error responses
+
+| Status | Meaning |
+| --- | --- |
+| `401 Unauthorized` | Missing or invalid API key |
+| `403 Forbidden` | Key is revoked or expired |
+| `402 Payment Required` | Insufficient credits |
+| `429 Too Many Requests` | Rate limit exceeded |

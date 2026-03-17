@@ -1,0 +1,50 @@
+---
+title: Historical Exchange Rates
+description: Get exchange rates for a specific date.
+---
+
+# Historical Exchange Rates
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns exchange rates for a specific historical date.
+
+## Request
+
+```bash
+GET /services/fx/historical/{date}
+```
+
+<ParamField path="date" type="string" required>
+  The date in `YYYY-MM-DD` format.
+</ParamField>
+
+<ParamField query="base" type="string" default="USD">
+  The base currency code.
+</ParamField>
+
+<ParamField query="symbols" type="string">
+  Comma-separated list of target currency codes.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/fx/historical/2026-01-15?base=USD&symbols=EUR,GBP" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "base": "USD",
+  "date": "2026-01-15",
+  "rates": {
+    "EUR": 0.9180,
+    "GBP": 0.7845
+  }
+}
+```

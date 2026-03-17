@@ -1,0 +1,88 @@
+---
+title: Validate Phone
+description: Validate a phone number — format, country detection, and E.164 formatting.
+---
+
+# Validate Phone
+
+<Info>**Credits:** 1 per call</Info>
+
+Validates a phone number and returns formatting information, country detection, line type (mobile/landline), and E.164 formatted number.
+
+## Request
+
+```bash
+GET /services/phone/validate/{phone}
+```
+
+Both `GET` and `POST` methods are supported. For `POST`, pass the phone number in the request body.
+
+<ParamField path="phone" type="string" required>
+  The phone number to validate. Include country code for best results.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/phone/validate/+97317000000" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/phone/validate/+97317000000",
+    headers={"X-Api-Key": "sk_live_your_key_here"}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "phone": "+97317000000",
+  "valid": true,
+  "format": {
+    "international": "+973 1700 0000",
+    "national": "1700 0000",
+    "e164": "+97317000000"
+  },
+  "country": {
+    "code": "BH",
+    "name": "Bahrain",
+    "calling_code": "+973"
+  },
+  "type": "landline"
+}
+```
+
+### Response fields
+
+<ResponseField name="valid" type="boolean">
+  Whether the phone number is valid.
+</ResponseField>
+
+<ResponseField name="format" type="object">
+  Formatted versions of the number.
+  <Expandable>
+    <ResponseField name="international" type="string">International format with spaces.</ResponseField>
+    <ResponseField name="national" type="string">National format without country code.</ResponseField>
+    <ResponseField name="e164" type="string">E.164 format (recommended for storage).</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="country" type="object">
+  Detected country.
+  <Expandable>
+    <ResponseField name="code" type="string">ISO 3166-1 alpha-2 code.</ResponseField>
+    <ResponseField name="name" type="string">Country name.</ResponseField>
+    <ResponseField name="calling_code" type="string">Calling code.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Line type: `mobile`, `landline`, `voip`, `toll_free`, or `unknown`.
+</ResponseField>

@@ -1,122 +1,148 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "$schema": "https://mintlify.com/docs/schema.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
-  "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+  "name": "Edge Docs",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#FFFFFF",
+    "light": "#FFFFFF",
+    "dark": "#FFFFFF",
+    "background": {
+      "dark": "#0A0A0A",
+      "light": "#FFFFFF"
+    }
+  },
+  "modeToggle": {
+    "default": "dark"
+  },
+  "tabs": [
+    {
+      "id": "guides",
+      "name": "Guides"
+    },
+    {
+      "id": "api-reference",
+      "name": "API Reference"
+    }
+  ],
+  "anchors": [],
   "navigation": {
-    "tabs": [
+    "guides": [
       {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
+        "group": "Getting Started",
+        "pages": [
+          "index",
+          "quickstart",
+          "authentication",
+          "credits",
+          "errors"
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
+        "group": "Dashboard",
+        "pages": [
+          "dashboard/overview",
+          "dashboard/api-keys",
+          "dashboard/playground",
+          "dashboard/team",
+          "dashboard/billing"
         ]
       }
     ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
+    "api-reference": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "group": "Overview",
+        "pages": [
+          "api-reference/introduction"
+        ]
+      },
+      {
+        "group": "IBAN Validation",
+        "pages": [
+          "api-reference/iban/validate",
+          "api-reference/iban/validate-basic",
+          "api-reference/iban/bulk-validate"
+        ]
+      },
+      {
+        "group": "Sanctions Screening",
+        "pages": [
+          "api-reference/sanctions/screen",
+          "api-reference/sanctions/stats"
+        ]
+      },
+      {
+        "group": "Exchange Rates",
+        "pages": [
+          "api-reference/fx/latest",
+          "api-reference/fx/historical",
+          "api-reference/fx/convert",
+          "api-reference/fx/currencies"
+        ]
+      },
+      {
+        "group": "Bank Directory",
+        "pages": [
+          "api-reference/bank/bic-lookup",
+          "api-reference/bank/by-country",
+          "api-reference/bank/search",
+          "api-reference/bank/countries"
+        ]
+      },
+      {
+        "group": "Commercial Registry",
+        "pages": [
+          "api-reference/cr/lookup",
+          "api-reference/cr/search"
+        ]
+      },
+      {
+        "group": "Country Data",
+        "pages": [
+          "api-reference/country/lookup",
+          "api-reference/country/list",
+          "api-reference/country/search",
+          "api-reference/country/by-currency",
+          "api-reference/country/by-calling-code",
+          "api-reference/country/by-region"
+        ]
+      },
+      {
+        "group": "Email Validation",
+        "pages": [
+          "api-reference/email/validate"
+        ]
+      },
+      {
+        "group": "Phone Validation",
+        "pages": [
+          "api-reference/phone/validate"
+        ]
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+    ]
   },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@edge.bh"
     }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.edge.bh"
+  },
+  "footerSocials": {
+    "x": "https://x.com/use_edge",
+    "github": "https://github.com/edge-holding",
+    "instagram": "https://www.instagram.com/use.edge",
+    "linkedin": "https://www.linkedin.com/company/edge-holding"
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true
   }
 }

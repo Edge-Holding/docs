@@ -1,0 +1,44 @@
+---
+title: Countries by Calling Code
+description: Find countries by phone calling code.
+---
+
+# Countries by Calling Code
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns all countries that use the specified phone calling code.
+
+## Request
+
+```bash
+GET /services/country/calling-code/{code}
+```
+
+<ParamField path="code" type="string" required>
+  Phone calling code (without `+`). Example: `973`, `1`, `44`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/country/calling-code/973" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "calling_code": "+973",
+  "countries": [
+    {
+      "code": "BH",
+      "name": "Bahrain"
+    }
+  ],
+  "total": 1
+}
+```

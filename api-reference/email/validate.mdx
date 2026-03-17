@@ -1,0 +1,76 @@
+---
+title: Validate Email
+description: Validate an email address — format, MX records, and disposable domain detection.
+---
+
+# Validate Email
+
+<Info>**Credits:** 1 per call</Info>
+
+Validates an email address by checking format, MX records, disposable domain detection, and risk scoring.
+
+## Request
+
+```bash
+GET /services/email/validate/{email}
+```
+
+Both `GET` and `POST` methods are supported. For `POST`, pass the email in the request body.
+
+<ParamField path="email" type="string" required>
+  The email address to validate.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/email/validate/john@example.com" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/email/validate/john@example.com",
+    headers={"X-Api-Key": "sk_live_your_key_here"}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "email": "john@example.com",
+  "valid": true,
+  "format_valid": true,
+  "mx_found": true,
+  "disposable": false,
+  "risk_score": 0.1,
+  "domain": "example.com"
+}
+```
+
+### Response fields
+
+<ResponseField name="valid" type="boolean">
+  Overall validation result.
+</ResponseField>
+
+<ResponseField name="format_valid" type="boolean">
+  Whether the email format is correct (RFC 5322).
+</ResponseField>
+
+<ResponseField name="mx_found" type="boolean">
+  Whether the domain has MX (mail exchange) records.
+</ResponseField>
+
+<ResponseField name="disposable" type="boolean">
+  Whether the domain is a known disposable/temporary email provider.
+</ResponseField>
+
+<ResponseField name="risk_score" type="number">
+  Risk score from 0.0 (safe) to 1.0 (high risk).
+</ResponseField>

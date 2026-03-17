@@ -1,33 +1,29 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
-
-# Documentation project instructions
+# Edge Documentation
 
 ## About this project
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Run `mint dev` to preview locally
-- Run `mint broken-links` to check links
+Edge API documentation built on [Mintlify](https://mintlify.com). Pages are MDX files with YAML frontmatter.
 
-## Terminology
+- **Config**: `docs.json`
+- **Preview**: `npx mint dev` (port 3000)
+- **Validate**: `npx mint broken-links`
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+## Structure
+
+- `index.mdx` — Home page
+- `quickstart.mdx` — Getting started guide
+- `authentication.mdx` — API key auth
+- `credits.mdx` — Credit-based pricing
+- `errors.mdx` — Error codes and formats
+- `api-reference/` — All API endpoint docs (IBAN, sanctions, FX, bank, CR, country, email, phone)
+- `dashboard/` — Dashboard feature guides (overview, API keys, playground, team, billing)
 
 ## Style preferences
-
-{/* Add any project-specific style rules below */}
 
 - Use active voice and second person ("you")
 - Keep sentences concise — one idea per sentence
 - Use sentence case for headings
 - Bold for UI elements: Click **Settings**
 - Code formatting for file names, commands, paths, and code references
-
-## Content boundaries
-
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+- Include code examples in cURL, Python, and JavaScript
+- Note credit cost at the top of every endpoint page using `<Info>**Credits:** X per call</Info>`

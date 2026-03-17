@@ -1,0 +1,56 @@
+---
+title: Search Banks
+description: Search for banks globally by name.
+---
+
+# Search Banks
+
+<Info>**Credits:** 1 per call</Info>
+
+Search for banks across all countries by name.
+
+## Request
+
+```bash
+GET /services/bank/search
+```
+
+<ParamField query="q" type="string" required>
+  Search query (bank name).
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  Page number.
+</ParamField>
+
+<ParamField query="per_page" type="integer" default="25">
+  Results per page.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/bank/search?q=deutsche+bank" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "query": "deutsche bank",
+  "banks": [
+    {
+      "bank_name": "Deutsche Bank AG",
+      "bic": "DEUTDEFF",
+      "country": "DE",
+      "city": "Frankfurt am Main"
+    }
+  ],
+  "total": 1,
+  "page": 1,
+  "per_page": 25
+}
+```

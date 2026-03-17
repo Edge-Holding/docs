@@ -1,0 +1,62 @@
+---
+title: Credits & Pricing
+description: How Edge's credit-based pricing works.
+---
+
+# Credits & Pricing
+
+Edge uses a credit-based pricing model. Every API call costs a set number of credits. No monthly minimums, no subscriptions required.
+
+## Credit costs per service
+
+| Service | Endpoint | Credits |
+| --- | --- | --- |
+| IBAN Validation (Full) | `/services/iban/validate/{iban}` | 3 |
+| IBAN Validation (Basic) | `/services/iban/validate-basic/{iban}` | 1 |
+| IBAN Bulk Validation | `/services/iban/bulk-validate` | 2 per IBAN |
+| Sanctions Screening | `/services/sanctions/screen` | 5 |
+| Sanctions Stats | `/services/sanctions/stats` | Free |
+| Exchange Rates (Latest) | `/services/fx/latest` | 1 |
+| Exchange Rates (Historical) | `/services/fx/historical/{date}` | 1 |
+| Currency Conversion | `/services/fx/convert` | 1 |
+| Currency List | `/services/fx/currencies` | 1 |
+| BIC/SWIFT Lookup | `/services/bank/bic/{bic}` | 1 |
+| Bank Directory | `/services/bank/country/{country}` | 1 |
+| Bank Search | `/services/bank/search` | 1 |
+| Bank Countries | `/services/bank/countries` | 1 |
+| CR Lookup | `/services/cr/{country}/lookup/{crNumber}` | 10 |
+| CR Search | `/services/cr/{country}/search` | 3 |
+| Country Lookup | `/services/country/{code}` | 1 |
+| Country List | `/services/country/list` | 1 |
+| Country Search | `/services/country/search` | 1 |
+| Email Validation | `/services/email/validate/{email}` | 1 |
+| Phone Validation | `/services/phone/validate/{phone}` | 1 |
+
+## Free tier
+
+Every new account gets **500 free credits** — no credit card required. That's enough for:
+- 166 full IBAN validations
+- 500 exchange rate lookups
+- 100 sanctions screenings
+- Or any combination of services
+
+## Buying more credits
+
+Purchase credit packs from your dashboard under **Billing**. Credits never expire.
+
+## Plans
+
+| Feature | Free | Pay-as-you-go | Monthly | Annual |
+| --- | --- | --- | --- | --- |
+| API Keys | 1 | 5 | Unlimited | Unlimited |
+| Team Members | 1 | 1 | Unlimited | Unlimited |
+| Rate Limit | 10/min | 60/min | 200/min | 200/min |
+| Log Retention | 7 days | 30 days | 90 days | 90 days |
+| Overage | No | No | Yes | Yes |
+
+Monthly and annual plans include **10,000 credits per month**. If you exceed your allocation, overage credits are charged at $0.005/credit (monthly) or $0.004/credit (annual).
+
+## Checking your balance
+
+- **Dashboard**: Your credit balance is shown in the top-right corner
+- **API**: `GET /organizations/{org}/credits` returns your current balance

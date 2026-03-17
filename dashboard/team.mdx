@@ -1,0 +1,54 @@
+---
+title: Team Management
+description: Invite team members and manage roles.
+---
+
+# Team Management
+
+Edge supports team collaboration with role-based access control.
+
+## Inviting members
+
+1. Go to **Team** in your dashboard
+2. Click **Add Member**
+3. Enter their email address
+4. Select a role
+5. Click **Send Invite**
+
+If the person already has an Edge account, they're added immediately. Otherwise, they receive an email invitation that expires in 7 days.
+
+## System roles
+
+| Role | Description |
+| --- | --- |
+| **Owner** | Full access to everything. Cannot be assigned — only the org creator has this role. |
+| **Admin** | Full access except granting credits and managing organization settings. |
+| **Developer** | Can view and create API keys, view logs and usage, use the playground. |
+| **Viewer** | Read-only access to API keys, logs, and usage. |
+
+## Permissions
+
+| Permission | Owner | Admin | Developer | Viewer |
+| --- | --- | --- | --- | --- |
+| View API keys | Yes | Yes | Yes | Yes |
+| Create API keys | Yes | Yes | Yes | No |
+| Revoke API keys | Yes | Yes | No | No |
+| View members | Yes | Yes | No | No |
+| Manage members | Yes | Yes | No | No |
+| View roles | Yes | Yes | No | No |
+| Manage roles | Yes | Yes | No | No |
+| View credits | Yes | Yes | No | No |
+| Grant credits | Yes | No | No | No |
+| View logs | Yes | Yes | Yes | Yes |
+| View usage | Yes | Yes | Yes | Yes |
+| Use playground | Yes | Yes | Yes | No |
+| Manage organization | Yes | No | No | No |
+
+## Custom roles
+
+Admins and owners can create custom roles with any combination of permissions:
+
+1. Go to **Roles**
+2. Click **Create Role**
+3. Enter a name and select permissions
+4. Click **Create**

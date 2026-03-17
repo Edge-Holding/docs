@@ -1,0 +1,116 @@
+---
+title: CR Search
+description: Search commercial registrations in Bahrain with advanced filters.
+---
+
+# Commercial Registry Search
+
+<Info>**Credits:** 3 per call</Info>
+
+Search for commercial registrations in Bahrain using various filters including company name, CR number, nationality, sector, and more.
+
+## Request
+
+```bash
+POST /services/cr/bh/search
+```
+
+All parameters are optional. At least one search parameter must be provided.
+
+<ParamField body="cr_number" type="string">
+  Filter by CR number.
+</ParamField>
+
+<ParamField body="name_en" type="string">
+  Search by English company name.
+</ParamField>
+
+<ParamField body="name_ar" type="string">
+  Search by Arabic company name.
+</ParamField>
+
+<ParamField body="company_type" type="string">
+  Filter by company type (e.g., W.L.L., B.S.C., etc.).
+</ParamField>
+
+<ParamField body="status" type="string">
+  Filter by registration status.
+</ParamField>
+
+<ParamField body="nationality" type="string">
+  Filter by owner nationality.
+</ParamField>
+
+<ParamField body="sector" type="string">
+  Filter by business sector.
+</ParamField>
+
+<ParamField body="activity_code" type="string">
+  Filter by activity code.
+</ParamField>
+
+<ParamField body="partner_name_en" type="string">
+  Search by partner/shareholder English name.
+</ParamField>
+
+<ParamField body="partner_name_ar" type="string">
+  Search by partner/shareholder Arabic name.
+</ParamField>
+
+<ParamField body="municipality" type="string">
+  Filter by municipality.
+</ParamField>
+
+<ParamField body="registered_from" type="string">
+  Registration date from (YYYY-MM-DD).
+</ParamField>
+
+<ParamField body="registered_to" type="string">
+  Registration date to (YYYY-MM-DD).
+</ParamField>
+
+<ParamField body="lang" type="string" default="EN">
+  Response language: `EN` or `AR`.
+</ParamField>
+
+<ParamField body="page" type="integer" default="1">
+  Page number.
+</ParamField>
+
+<ParamField body="per_page" type="integer" default="25">
+  Results per page (max 100).
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.edge.bh/api/v1/services/cr/bh/search" \
+  -H "X-Api-Key: sk_live_your_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name_en": "trading",
+    "status": "Active",
+    "per_page": 10
+  }'
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "results": [
+    {
+      "cr_number": "12345",
+      "company_name_en": "Example Trading Co.",
+      "company_type": "W.L.L.",
+      "status": "Active",
+      "registration_date": "2020-01-15"
+    }
+  ],
+  "total": 150,
+  "page": 1,
+  "per_page": 10
+}
+```

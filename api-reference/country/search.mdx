@@ -1,0 +1,46 @@
+---
+title: Search Countries
+description: Search countries by name.
+---
+
+# Search Countries
+
+<Info>**Credits:** 1 per call</Info>
+
+Search for countries by name (partial match supported).
+
+## Request
+
+```bash
+GET /services/country/search
+```
+
+<ParamField query="q" type="string" required>
+  Search query.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/country/search?q=bahrain" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "query": "bahrain",
+  "results": [
+    {
+      "code": "BH",
+      "name": "Bahrain",
+      "official_name": "Kingdom of Bahrain",
+      "region": "Asia"
+    }
+  ],
+  "total": 1
+}
+```

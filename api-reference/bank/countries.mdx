@@ -1,0 +1,40 @@
+---
+title: Supported Countries
+description: List all countries with bank data available.
+---
+
+# Supported Countries
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns a list of all countries that have bank directory data, with a count of banks per country.
+
+## Request
+
+```bash
+GET /services/bank/countries
+```
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/bank/countries" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "countries": [
+    { "code": "GB", "name": "United Kingdom", "bank_count": 450 },
+    { "code": "DE", "name": "Germany", "bank_count": 380 },
+    { "code": "FR", "name": "France", "bank_count": 320 },
+    { "code": "BH", "name": "Bahrain", "bank_count": 28 }
+  ],
+  "total_countries": 63,
+  "total_banks": 3000
+}
+```

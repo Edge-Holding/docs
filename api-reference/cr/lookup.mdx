@@ -1,0 +1,89 @@
+---
+title: CR Lookup
+description: Look up commercial registration details in Bahrain.
+---
+
+# Commercial Registry Lookup
+
+<Info>**Credits:** 10 per call</Info>
+
+Retrieve full details of a commercial registration in Bahrain, including company information, shareholders, board members, branches, and activities.
+
+## Request
+
+```bash
+GET /services/cr/bh/lookup/{crNumber}
+```
+
+<ParamField path="crNumber" type="string" required>
+  The commercial registration number.
+</ParamField>
+
+<ParamField query="branch" type="string">
+  Specific branch number to look up.
+</ParamField>
+
+<ParamField query="lang" type="string" default="EN">
+  Response language: `EN` or `AR`.
+</ParamField>
+
+<Note>Currently only Bahrain (`bh`) is supported. More countries coming soon.</Note>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/cr/bh/lookup/12345" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/cr/bh/lookup/12345",
+    headers={"X-Api-Key": "sk_live_your_key_here"}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "cr_number": "12345",
+  "company_name_en": "Example Trading Co.",
+  "company_name_ar": "شركة المثال التجارية",
+  "status": "Active",
+  "company_type": "W.L.L.",
+  "registration_date": "2020-01-15",
+  "expiry_date": "2025-01-15",
+  "activities": [
+    {
+      "code": "4719",
+      "description": "General Trading"
+    }
+  ],
+  "address": {
+    "flat": "101",
+    "building": "500",
+    "road": "1234",
+    "block": "321",
+    "municipality": "Capital"
+  },
+  "shareholders": [
+    {
+      "name_en": "Ahmed Ali",
+      "nationality": "Bahraini",
+      "shares_percentage": 51.0
+    }
+  ],
+  "board_members": [
+    {
+      "name_en": "Ahmed Ali",
+      "position": "Managing Director"
+    }
+  ],
+  "branches": []
+}
+```

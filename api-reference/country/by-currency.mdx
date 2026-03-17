@@ -1,0 +1,44 @@
+---
+title: Countries by Currency
+description: Find countries that use a specific currency.
+---
+
+# Countries by Currency
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns all countries that use the specified currency code.
+
+## Request
+
+```bash
+GET /services/country/currency/{currency}
+```
+
+<ParamField path="currency" type="string" required>
+  ISO 4217 currency code. Example: `USD`, `EUR`, `BHD`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/country/currency/BHD" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "currency": "BHD",
+  "countries": [
+    {
+      "code": "BH",
+      "name": "Bahrain"
+    }
+  ],
+  "total": 1
+}
+```

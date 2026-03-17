@@ -1,0 +1,54 @@
+---
+title: Errors
+description: HTTP status codes and error responses from the Edge API.
+---
+
+# Errors
+
+The Edge API uses standard HTTP status codes to indicate success or failure.
+
+## Status codes
+
+| Code | Meaning |
+| --- | --- |
+| `200` | Success |
+| `401` | Unauthorized — missing or invalid API key |
+| `402` | Payment Required — insufficient credits |
+| `403` | Forbidden — key is revoked/expired, or permission denied |
+| `404` | Not Found — endpoint or resource doesn't exist |
+| `422` | Validation Error — invalid request parameters |
+| `429` | Too Many Requests — rate limit exceeded |
+| `500` | Server Error — something went wrong on our end |
+
+## Error response format
+
+All errors return a JSON response with an error message:
+
+```json
+{
+  "message": "Insufficient credits. Required: 3, Available: 0"
+}
+```
+
+Validation errors (422) include field-level details:
+
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "ibans": ["The ibans field must have at least 5 items."]
+  }
+}
+```
+
+## Rate limits
+
+Rate limits depend on your plan:
+
+| Plan | Limit |
+| --- | --- |
+| Free | 10 requests/minute |
+| Pay-as-you-go | 60 requests/minute |
+| Monthly / Annual | 200 requests/minute |
+
+When rate limited, you'll receive a `429` response with a `Retry-After` header indicating how many seconds to wait.

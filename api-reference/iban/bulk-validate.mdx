@@ -1,0 +1,94 @@
+---
+title: Bulk Validate IBANs
+description: Validate multiple IBANs in a single request.
+---
+
+# Bulk Validate IBANs
+
+<Info>**Credits:** 2 per IBAN in the request</Info>
+
+Validate between 5 and 100 IBANs in a single API call. Each IBAN gets full validation with bank details.
+
+## Request
+
+```bash
+POST /services/iban/bulk-validate
+```
+
+<ParamField body="ibans" type="string[]" required>
+  Array of IBAN strings. Minimum 5, maximum 100.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.edge.bh/api/v1/services/iban/bulk-validate" \
+  -H "X-Api-Key: sk_live_your_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ibans": [
+      "GB29NWBK60161331926819",
+      "DE89370400440532013000",
+      "FR7630006000011234567890189",
+      "ES9121000418450200051332",
+      "IT60X0542811101000000123456"
+    ]
+  }'
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.edge.bh/api/v1/services/iban/bulk-validate",
+    headers={
+        "X-Api-Key": "sk_live_your_key_here",
+        "Content-Type": "application/json"
+    },
+    json={
+        "ibans": [
+            "GB29NWBK60161331926819",
+            "DE89370400440532013000",
+            "FR7630006000011234567890189",
+            "ES9121000418450200051332",
+            "IT60X0542811101000000123456"
+        ]
+    }
+)
+```
+
+</CodeGroup>
+
+## Response
+
+Returns an array of validation results:
+
+```json
+{
+  "results": [
+    {
+      "valid": true,
+      "iban": "GB29NWBK60161331926819",
+      "country": { "code": "GB", "name": "United Kingdom" },
+      "bank": { "name": "NATIONAL WESTMINSTER BANK PLC", "bic": "NWBKGB2L" },
+      "checksum_valid": true,
+      "format_valid": true
+    },
+    {
+      "valid": true,
+      "iban": "DE89370400440532013000",
+      "country": { "code": "DE", "name": "Germany" },
+      "bank": { "name": "Commerzbank", "bic": "COBADEFFXXX" },
+      "checksum_valid": true,
+      "format_valid": true
+    }
+  ],
+  "total": 5,
+  "valid_count": 5,
+  "invalid_count": 0
+}
+```
+
+<Note>
+A request with 5 IBANs costs 10 credits (2 per IBAN). A request with 100 IBANs costs 200 credits.
+</Note>

@@ -1,0 +1,39 @@
+---
+title: Sanctions Database Stats
+description: Get statistics about the sanctions database.
+---
+
+# Sanctions Database Stats
+
+<Info>**Credits:** Free</Info>
+
+Returns statistics about the current sanctions database, including total entities and breakdown by source.
+
+## Request
+
+```bash
+GET /services/sanctions/stats
+```
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/sanctions/stats" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "total_entities": 1200000,
+  "sources": {
+    "OFAC": 850000,
+    "UN": 250000,
+    "UK_OFSI": 100000
+  },
+  "last_updated": "2026-03-15T00:00:00Z"
+}
+```

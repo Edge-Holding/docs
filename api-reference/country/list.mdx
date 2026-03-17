@@ -1,0 +1,47 @@
+---
+title: List Countries
+description: Get a list of all 250 countries.
+---
+
+# List Countries
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns a list of all 250 countries with basic information.
+
+## Request
+
+```bash
+GET /services/country/list
+```
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/country/list" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "countries": [
+    {
+      "code": "AD",
+      "name": "Andorra",
+      "region": "Europe",
+      "calling_codes": ["+376"]
+    },
+    {
+      "code": "AE",
+      "name": "United Arab Emirates",
+      "region": "Asia",
+      "calling_codes": ["+971"]
+    }
+  ],
+  "total": 250
+}
+```

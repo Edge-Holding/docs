@@ -1,0 +1,64 @@
+---
+title: Convert Currency
+description: Convert an amount from one currency to another.
+---
+
+# Convert Currency
+
+<Info>**Credits:** 1 per call</Info>
+
+Converts an amount from one currency to another using the latest or a specific historical rate.
+
+## Request
+
+```bash
+GET /services/fx/convert
+```
+
+<ParamField query="from" type="string" required>
+  Source currency code (ISO 4217).
+</ParamField>
+
+<ParamField query="to" type="string" required>
+  Target currency code (ISO 4217).
+</ParamField>
+
+<ParamField query="amount" type="number" required>
+  Amount to convert.
+</ParamField>
+
+<ParamField query="date" type="string">
+  Optional date (`YYYY-MM-DD`) for historical conversion. Defaults to latest rate.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/fx/convert?from=USD&to=BHD&amount=1000" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/fx/convert",
+    headers={"X-Api-Key": "sk_live_your_key_here"},
+    params={"from": "USD", "to": "BHD", "amount": 1000}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "from": "USD",
+  "to": "BHD",
+  "amount": 1000,
+  "result": 376.00,
+  "rate": 0.3760,
+  "date": "2026-03-17"
+}
+```

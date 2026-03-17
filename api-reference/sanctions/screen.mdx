@@ -1,0 +1,84 @@
+---
+title: Screen Entity
+description: Screen a name against OFAC, UN, and UK OFSI sanctions lists.
+---
+
+# Screen Entity
+
+<Info>**Credits:** 5 per call</Info>
+
+Screen a name against 1.2M+ sanctioned entities from OFAC (US), UN, and UK OFSI databases. Returns matching entities with a similarity score.
+
+## Request
+
+```bash
+GET /services/sanctions/screen
+```
+
+Both `GET` and `POST` methods are supported.
+
+<ParamField query="name" type="string" required>
+  The name to screen against sanctions lists.
+</ParamField>
+
+<ParamField query="min_score" type="number" default="0.7">
+  Minimum similarity score (0.6 to 1.0). Lower values return more results but with weaker matches.
+</ParamField>
+
+<ParamField query="type" type="string">
+  Filter by entity type: `Individual`, `Entity`, `Vessel`, or `Aircraft`.
+</ParamField>
+
+<ParamField query="source" type="string">
+  Filter by sanctions list: `OFAC`, `UN`, or `UK_OFSI`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/sanctions/screen?name=John+Smith&min_score=0.8" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/sanctions/screen",
+    headers={"X-Api-Key": "sk_live_your_key_here"},
+    params={"name": "John Smith", "min_score": 0.8}
+)
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "query": "John Smith",
+  "total_matches": 2,
+  "matches": [
+    {
+      "name": "SMITH, John David",
+      "score": 0.92,
+      "type": "Individual",
+      "source": "OFAC",
+      "program": "SDGT",
+      "remarks": "DOB 15 Mar 1975; nationality United Kingdom"
+    },
+    {
+      "name": "SMITH, Jonathan",
+      "score": 0.81,
+      "type": "Individual",
+      "source": "UN",
+      "program": "Security Council",
+      "remarks": "Listed pursuant to resolution 1988"
+    }
+  ]
+}
+```
+
+<Warning>
+Sanctions screening is for compliance purposes. Always verify results manually and consult your compliance team before making decisions based on screening results.
+</Warning>

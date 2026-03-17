@@ -1,0 +1,139 @@
+---
+title: Validate IBAN (Full)
+description: Validate an IBAN and get full bank details, BIC, SEPA status, and country information.
+---
+
+# Validate IBAN (Full)
+
+<Info>**Credits:** 3 per call</Info>
+
+Validates an IBAN number and returns comprehensive details including bank name, BIC/SWIFT code, branch information, SEPA membership, and country data. Supports 110+ countries.
+
+## Request
+
+<ParamField path="iban" type="string" required>
+  The IBAN to validate. Can include spaces (they are stripped automatically).
+</ParamField>
+
+```bash
+GET /services/iban/validate/{iban}
+```
+
+Both `GET` and `POST` methods are supported.
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/iban/validate/GB29NWBK60161331926819" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+```javascript JavaScript
+const response = await fetch(
+  "https://api.edge.bh/api/v1/services/iban/validate/GB29NWBK60161331926819",
+  { headers: { "X-Api-Key": "sk_live_your_key_here" } }
+);
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/services/iban/validate/GB29NWBK60161331926819",
+    headers={"X-Api-Key": "sk_live_your_key_here"}
+)
+data = response.json()
+```
+
+</CodeGroup>
+
+## Response
+
+<ResponseField name="valid" type="boolean">
+  Whether the IBAN is valid.
+</ResponseField>
+
+<ResponseField name="iban" type="string">
+  The normalized IBAN (spaces removed, uppercased).
+</ResponseField>
+
+<ResponseField name="country" type="object">
+  Country information.
+  <Expandable>
+    <ResponseField name="code" type="string">ISO 3166-1 alpha-2 country code.</ResponseField>
+    <ResponseField name="name" type="string">Country name.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="bank" type="object">
+  Bank information (when available).
+  <Expandable>
+    <ResponseField name="name" type="string">Bank name.</ResponseField>
+    <ResponseField name="bic" type="string">BIC/SWIFT code.</ResponseField>
+    <ResponseField name="branch" type="string">Branch name or identifier.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="sepa" type="object">
+  SEPA (Single Euro Payments Area) status.
+  <Expandable>
+    <ResponseField name="member" type="boolean">Whether the country is a SEPA member.</ResponseField>
+    <ResponseField name="credit_transfer" type="boolean">Supports SEPA credit transfers.</ResponseField>
+    <ResponseField name="direct_debit" type="boolean">Supports SEPA direct debits.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="checksum_valid" type="boolean">
+  Whether the IBAN check digits are valid (mod-97 check).
+</ResponseField>
+
+<ResponseField name="format_valid" type="boolean">
+  Whether the IBAN matches the country-specific format.
+</ResponseField>
+
+**Example response (valid IBAN):**
+
+```json
+{
+  "valid": true,
+  "iban": "GB29NWBK60161331926819",
+  "country": {
+    "code": "GB",
+    "name": "United Kingdom"
+  },
+  "bank": {
+    "name": "NATIONAL WESTMINSTER BANK PLC",
+    "bic": "NWBKGB2L",
+    "branch": "Regent Street"
+  },
+  "sepa": {
+    "member": true,
+    "credit_transfer": true,
+    "direct_debit": true
+  },
+  "checksum_valid": true,
+  "format_valid": true
+}
+```
+
+**Example response (invalid IBAN):**
+
+```json
+{
+  "valid": false,
+  "iban": "GB29NWBK00000000000000",
+  "country": {
+    "code": "GB",
+    "name": "United Kingdom"
+  },
+  "bank": null,
+  "sepa": {
+    "member": true,
+    "credit_transfer": true,
+    "direct_debit": true
+  },
+  "checksum_valid": false,
+  "format_valid": false
+}
+```

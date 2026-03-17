@@ -1,0 +1,42 @@
+---
+title: List Currencies
+description: Get a list of all supported currencies.
+---
+
+# List Currencies
+
+<Info>**Credits:** 1 per call</Info>
+
+Returns a list of all supported currency codes and their names.
+
+## Request
+
+```bash
+GET /services/fx/currencies
+```
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/services/fx/currencies" \
+  -H "X-Api-Key: sk_live_your_key_here"
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "currencies": {
+    "USD": "United States Dollar",
+    "EUR": "Euro",
+    "GBP": "British Pound Sterling",
+    "BHD": "Bahraini Dinar",
+    "SAR": "Saudi Riyal",
+    "AED": "United Arab Emirates Dirham"
+  }
+}
+```
+
+<Note>166 currencies are supported in total.</Note>
