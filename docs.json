@@ -8,12 +8,28 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#FFFFFF",
-    "light": "#FFFFFF",
-    "dark": "#FFFFFF"
+    "primary": "#F5F4F2",
+    "light": "#0a0e19",
+    "dark": "#F5F4F2",
+    "background": {
+      "dark": "#0D0C0B",
+      "light": "#F9FAFB"
+    }
   },
   "modeToggle": {
-    "default": "dark"
+    "default": "dark",
+    "isHidden": false
+  },
+  "rounded": "default",
+  "font": {
+    "headings": {
+      "family": "Inter",
+      "weight": 600
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 400
+    }
   },
   "navigation": {
     "tabs": [
