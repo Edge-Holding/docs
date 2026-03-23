@@ -1,0 +1,57 @@
+---
+title: Credit Balance
+description: Check your organization's current credit balance.
+---
+
+# Credit Balance
+
+<Info>**Credits:** Free</Info>
+
+Returns the current credit balance for the organization associated with your API key. This endpoint does not consume any credits.
+
+## Request
+
+```bash
+GET /credits/balance
+```
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.edge.bh/api/v1/credits/balance" \
+  -H "Authorization: Bearer sk_live_your_key_here"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://api.edge.bh/api/v1/credits/balance",
+    headers={"Authorization": "Bearer sk_live_your_key_here"}
+)
+print(response.json())
+```
+
+```javascript JavaScript
+const response = await fetch("https://api.edge.bh/api/v1/credits/balance", {
+  headers: { "Authorization": "Bearer sk_live_your_key_here" }
+});
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+## Response
+
+```json
+{
+  "balance": 4250
+}
+```
+
+### Response fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `balance` | integer | Current credit balance. Can be negative if overage is enabled. |
